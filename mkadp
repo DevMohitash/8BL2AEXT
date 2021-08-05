@@ -31,7 +31,7 @@ $BB rm -rf /data/dalvik-cache/*
 
 sleep 1
 
-am start -a android.intent.action.MAIN -e toasttext "ButterLimits Mode Enabled. Rebooting device in 5 secs" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Battery Profile Enabled. Rebooting device in 5 secs" -n mkadp.toast/.MainActivity
 sleep 1
 am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
 sleep 1
