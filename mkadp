@@ -24,7 +24,7 @@ kmsg3 "Battery Mode Enabled"
 kmsg3 "----"
 
 
-$BB mv -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapp/files/YourBLchanges.log
+$BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapp/files/YourBLchanges.log
 
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
