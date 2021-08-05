@@ -3,7 +3,7 @@
 #VARIABLES===============================#
 BB=/data/adb/magisk/busybox
 CLOG=/data/media/0/YourBLchanges.log
-BRANCH="2-BLBattery-Profile"
+BRANCH="Battery-Profile"
 #=======================================#
 #=======================================#
 
@@ -12,7 +12,7 @@ sleep 1
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/blbb.sh /data/adb/modules/butterlimitsforop7poos11uni/service.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/zbboff.sh /data/adb/modules/butterlimitsforop7poos11uni/post-fs-data.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/battery/module.prop /data/adb/modules/butterlimitsforop7poos11uni
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/battery/system.prop /data/adb/modules/butterlimitsforop7poos11uni
+
 CLOG=/data/media/0/YourBLchanges.log
 
 kmsg3() {
@@ -23,14 +23,26 @@ kmsg3 $(date)
 kmsg3 "Battery Mode Enabled"
 kmsg3 "----"
 
+
+$BB mv -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapp/files/YourBLchanges.log
+
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
 
 sleep 1
 
-am start -a android.intent.action.MAIN -e toasttext "Battery Mode Enabled. Rebooting device in 5 secs" -n mkadp.toast/.MainActivity
-
-sleep 5
+am start -a android.intent.action.MAIN -e toasttext "ButterLimits Mode Enabled. Rebooting device in 5 secs" -n mkadp.toast/.MainActivity
+sleep 1
+am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
+sleep 1
+am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
+sleep 1
+am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
+sleep 1
+am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
+sleep 1
+am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
+sleep 2
 
 am start -a android.intent.action.MAIN -e toasttext "Rebooting Now..." -n mkadp.toast/.MainActivity
 
