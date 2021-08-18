@@ -763,8 +763,6 @@ kmsg2 "All Done."
 kmsg2 "Enjoy ButterLimits"
 kmsg2 "----"
 
-am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-
 # Push a semi-needed log to the internal storage with a "report" if the script could be executed or not;
 kmsg $(date) 
 kmsg "MKADP HAS EXECUTED TASK SUCCESSFULLY. ENJOY!" 
@@ -784,5 +782,7 @@ $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapp/files/Your
 am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
+
+am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
 
 exit 0
