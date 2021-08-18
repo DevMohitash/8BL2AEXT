@@ -43,6 +43,7 @@ rm $NEWLOG2
 rm $LOGFU
 rm -rf $LOGBL1
 rm -rf $LOGBL2
+rm -rf $LOG2
 
 am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
 
@@ -51,7 +52,7 @@ kmsg() {
 }
 
 kmsg2() {
-	echo -e "[*] $@" >> $LOGBL2
+	echo -e "[*] $@" >> $LOG2
 }
 
 # Safely write value to file
@@ -768,9 +769,6 @@ kmsg2 "Enjoy ButterLimits"
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "All Done" -n mkadp.toast/.MainActivity
-
-$BB rm -rf $LOG2
-$BB cp -rf $LOGBL2 $LOG2 
 
 # Push a semi-needed log to the internal storage with a "report" if the script could be executed or not;
 kmsg $(date) 
