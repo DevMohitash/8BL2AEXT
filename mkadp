@@ -763,13 +763,13 @@ kmsg $(date)
 kmsg "fstrim done"
 kmsg "----"
 #
-kmsglog $(date) 
-kmsglog "Disabling ZRAM"
-kmsglog "----"
+kmsg $(date) 
+kmsg "Disabling ZRAM"
+kmsg "----"
 #
-kmsglog2 $(date) 
-kmsglog2 "Disabling ZRAM"
-kmsglog2 "----"
+kmsg2 $(date) 
+kmsg2 "Disabling ZRAM"
+kmsg2 "----"
 #
 swapoff /dev/zram0
 swapoff /dev/block/zram0
@@ -780,13 +780,13 @@ ctl /sys/block/vnswap0/reset 1
 ctl /sys/block/vnswap0/disksize 0
 ctl /proc/sys/vm/swappiness 0
 #
-kmsglog $(date) 
-kmsglog "ZRAM Disabled"
-kmsglog "----"
+kmsg $(date) 
+kmsg "ZRAM Disabled"
+kmsg "----"
 #
-kmsglog2 $(date) 
-kmsglog2 "ZRAM Disable"
-kmsglog2 "----"
+kmsg2 $(date) 
+kmsg2 "ZRAM Disable"
+kmsg2 "----"
 #
 
 kmsg2 $(date) 
