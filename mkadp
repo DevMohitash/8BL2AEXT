@@ -24,9 +24,6 @@ $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/sy
 
 am start -a android.intent.action.MAIN -e toasttext "Setting Variables" -n mkadp.toast/.MainActivity
 
-resetprop -v -n "ro.rom.version" "ButterLimits v8.0 with Balanced-Profile on $(getprop ro.rom.version)"
-resetprop -v -n "ro.build.display.id" "ButterLimits v8.0 with Balanced-Profile"
-
 #=======================================#
 #VARIABLES==============================#
 NEWLOG2=/data/media/0/.mkadp.log
