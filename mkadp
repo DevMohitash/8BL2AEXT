@@ -11,11 +11,12 @@ sleep 1
 
 am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Battery. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
 
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/blbb.sh /data/adb/modules/butterlimitsforop7poos11uni/service.sh
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/zbboff.sh /data/adb/modules/butterlimitsforop7poos11uni/post-fs-data.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/battery/module.prop /data/adb/modules/butterlimitsforop7poos11uni
 
 am start -a android.intent.action.MAIN -e toasttext "Setting Variables" -n mkadp.toast/.MainActivity
+
+resetprop -v -n "ro.rom.version" "ButterLimits v8.0 with Battery-Profile on $(getprop ro.rom.version)"
+resetprop -v -n "ro.build.display.id" "ButterLimits v8.0 with Battery-Profile"
 
 #=======================================#
 #VARIABLES==============================#
