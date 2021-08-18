@@ -815,5 +815,5 @@ $BB rm -rf /cache/*
 $BB rm -rf /data/dalvik-cache/*
 
 am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-
+am start -n com.mkadp.blapp2/.activities.LogsActivity
 exit 0
