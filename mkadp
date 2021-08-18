@@ -763,6 +763,33 @@ kmsg $(date)
 kmsg "fstrim done"
 kmsg "----"
 
+#
+kmsglog $(date) 
+kmsglog "Disabling ZRAM"
+kmsglog "----"
+#
+kmsglog2 $(date) 
+kmsglog2 "Disabling ZRAM"
+kmsglog2 "----"
+#
+swapoff /dev/zram0
+swapoff /dev/block/zram0
+swapoff /dev/block/vnswap0
+ctl /sys/block/zram0/reset 1
+ctl /sys/block/zram0/disksize 0
+ctl /sys/block/vnswap0/reset 1
+ctl /sys/block/vnswap0/disksize 0
+ctl /proc/sys/vm/swappiness 0
+#
+kmsglog $(date) 
+kmsglog "ZRAM Disabled"
+kmsglog "----"
+#
+kmsglog2 $(date) 
+kmsglog2 "Disabling ZRAM"
+kmsglog2 "----"
+#
+
 kmsg2 $(date) 
 kmsg2 "All Done."
 kmsg2 "Enjoy ButterLimits"
@@ -785,23 +812,5 @@ am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toas
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
 
-sleep 1
-
-am start -a android.intent.action.MAIN -e toasttext "ButterLimits Mode Enabled. Rebooting device in 5 secs" -n mkadp.toast/.MainActivity
-sleep 1
-am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
-sleep 1
-am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
-sleep 1
-am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
-sleep 1
-am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
-sleep 1
-am start -a android.intent.action.MAIN -e toasttext "After Reboot, please wait for atleast 5 minutes before unlocking it." -n mkadp.toast/.MainActivity
-sleep 2
-
-am start -a android.intent.action.MAIN -e toasttext "Rebooting Now..." -n mkadp.toast/.MainActivity
-
-sleep 2
 sync
 exit 0
