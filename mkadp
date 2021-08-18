@@ -812,5 +812,4 @@ am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toas
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
 
-sync
 exit 0
