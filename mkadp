@@ -332,8 +332,6 @@ ctl /proc/sys/net/ipv4/tcp_no_metrics_save 1
 ctl /proc/sys/net/ipv4/tcp_slow_start_after_idle 0
 ctl /proc/sys/net/ipv6/ip6frag_time 48
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 # VMemory tweaks big improved balance between performance and battery life;
 ctl /proc/sys/vm/drop_caches 1
 ctl /proc/sys/vm/dirty_background_ratio 11
@@ -426,8 +424,6 @@ for i in $(find /sys/ -name snapshot_crashdumper); do
 ctl $i 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 # Some Misc
 for i in /sys/devices/virtual/block/*/queue/iosched; do
   ctl $i/group_idle 1
@@ -494,8 +490,6 @@ ctl /proc/sys/kernel/sched_boost_top_app 0
 ctl /proc/sys/kernel/sched_walt_rotate_big_tasks 0
 ctl /proc/sys/kernel/sched_boost 0
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 # Boost Control Tweak
 # Credits to @Ratoriku
 ctl /sys/module/boost_control/parameters/app_launch_boost_ms 0
@@ -508,8 +502,6 @@ ctl /sys/class/kgsl/kgsl-3d0/bus_split 1
 #1028 readahead KB
 ctl /sys/block/sde/queue/read_ahead_kb 1028
 ctl /sys/block/sdf/queue/read_ahead_kb 1028
-
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 # For Idle battery Life
 ctl /sys/class/misc/boeffla_wakelock_blocker/wakelock_blocker "qcom_rx_wakelock;wlan;wlan_wow_wl;wlan_extscan_wl;netmgr_wl;NETLINK;IPA_WS;[timerfd];wlan_ipa;wlan_pno_wl;wcnss_filter_lock;IPCRTR_lpass_rx;hal_bluetooth_lock"
