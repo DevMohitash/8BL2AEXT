@@ -11,9 +11,12 @@ kmsg3() {
 	echo -e "[*] $@" >> $CLOG
 }
 
+am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Balanced. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
+
 sleep 1
 
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/bl.sh /data/adb/modules/butterlimitsforop7poos11uni/service.sh
+am start -a android.intent.action.MAIN -e toasttext "Preparing..." -n mkadp.toast/.MainActivity
+
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/zbloff.sh /data/adb/modules/butterlimitsforop7poos11uni/post-fs-data.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadpx/mkadpbl.sh /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadpx/mkadp.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/module.prop /data/adb/modules/butterlimitsforop7poos11uni
@@ -21,11 +24,765 @@ $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/module
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/etc/sysconfig/power_profile_com.google.android.gm.xml /data/adb/modules/butterlimitsforop7poos11uni/system/etc/sysconfig/power_profile_com.google.android.gm.xml
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/product/etc/sysconfig/google.xml /data/adb/modules/butterlimitsforop7poos11uni/system/product/etc/sysconfig/google.xml
 
+am start -a android.intent.action.MAIN -e toasttext "Setting Variables" -n mkadp.toast/.MainActivity
+
+#=======================================#
+#VARIABLES==============================#
+NEWLOG2=/data/media/0/.mkadp.log
+LOGFU=/data/media/0/butterlimits.log
+#=======================================#
+LOGBL1=/data/media/0/.mkadp.log
+LOGBL2=/data/media/0/butterlimits.log
+LOG2=/data/data/com.mkadp.blapp/files/butterlimits.log
+#=======================================#
+#=======================================#
+
+am start -a android.intent.action.MAIN -e toasttext "Removing old Logs" -n mkadp.toast/.MainActivity
+
+rm $NEWLOG2
+rm $LOGFU
+rm -rf $LOGBL1
+rm -rf $LOGBL2
+
+am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
+
+kmsg() {
+	echo -e "[*] $@" >> $LOGBL1
+}
+
+kmsg2() {
+	echo -e "[*] $@" >> $LOGBL2
+}
+
+# Safely write value to file
+_ctl() {
+	# Bail out if file does not exist
+	[[ ! -f "$1" ]] && return 1
+
+	# Fetch the current key value
+	local curval=`cat "$1" 2> /dev/null`
+
+	# Bail out if value is already set
+	[[ "$curval" == "$2" ]] && return 0
+
+	# Write the new value
+	echo "$2" > "$1" 2> /dev/null
+
+	# Bail out if ctl fails
+	if [[ $? -ne 0 ]]
+	then
+		err "Failed to ctl $2 to $1.Skipping."
+		return 1
+	fi
+
+	kmsg "$1: $curval => $2"
+}
+
+# Background fork ctl function
+ctl() {
+	_ctl $@
+}
+
+# Print device information prior to execution
+kmsg2 $(date) 
+kmsg2 "ButterLimits Mode"
+kmsg2 "Verson 7.0"
+kmsg2 "----"
+
+am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" -n mkadp.toast/.MainActivity
+
+kmsg2 "Killing some idle servers to save battery"
+kmsg2 "----"
+# Kill all three to save battery
+pm enable com.android.providers.media/com.android.providers.media.MediaScannerReceiver
+killall -9 com.google.android.gms
+killall -9 android.process.media
+killall -9 mediaserver
+
+kmsg $(date) 
+kmsg "Killing some servers done"
+kmsg "----"
+
+am start -a android.intent.action.MAIN -e toasttext "Applying UGMS Doze" -n mkadp.toast/.MainActivity
+
+kmsg2 "UGMS Doze on the go..."
+kmsg2 "----"
+
+# GMS Doze
+
+cmd appops set com.google.android.gms BOOT_COMPLETED ignore
+cmd appops set com.google.android.ims BOOT_COMPLETED ignore
+cmd appops set com.google.android.gsf WAKE_LOCK ignore
+cmd appops set com.google.android.gms AUTO_START ignore
+cmd appops set com.google.android.ims AUTO_START ignore
+cmd appops set com.google.android.ims WAKE_LOCK ignore
+
+pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
+pm disable com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
+pm disable com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService
+pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
+
+am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
+
+kmsg2 "More Doze on the go..."
+kmsg2 "----"
+
+if [ "$(pidof com.google.android.gms | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms);
+fi;
+if [ "$(pidof com.google.android.gms.unstable | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms.unstable);
+fi;
+if [ "$(pidof com.google.android.gms.persistent | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms.persistent);
+fi;
+if [ "$(pidof com.google.android.gms.wearable | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms.wearable);
+fi;
+
+pm disable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
+pm disable com.google.android.gms/.common.config.PhenotypeCheckinService
+
+am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
+
+kmsg2 "Blocking some GMS....."
+kmsg2 "----"
+
+#GMS Blocker
+pm disable com.google.android.location.internal.UPLOAD_ANALYTICS
+pm disable com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService
+pm disable com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService
+pm disable com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService
+pm disable com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService
+pm disable com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService
+pm disable com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService
+pm disable com.google.android.gms/NearbyMessagesService
+pm disable com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService
+pm disable com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService
+pm disable com.google.android.gms/com.google.android.gms.lockbox.LockboxService
+pm disable com.google.android.gms/.measurement.PackageMeasurementTaskService
+pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent
+
+am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
+
+dumpsys deviceidle enable all;
+dumpsys deviceidle enabled all;
+dumpsys deviceidle force-idle
+settings put global aggressive_idle_enabled "1"
+settings put global aggressive_standby_enabled "1"
+
+kmsg $(date) 
+kmsg "GMS doze done"
+kmsg "----"
+
+pm enable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
+pm enable com.google.android.gms/.common.config.PhenotypeCheckinService
+
+pm enable 'com.google.android.gsf/.update.SystemUpdateService'
+pm enable 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'
+pm enable 'com.google.android.gms/.update.SystemUpdateActivity'
+pm enable 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'
+pm enable 'com.google.android.gms/.update.SystemUpdateService$Receiver'
+pm enable 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'
+pm enable 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'
+pm enable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'
+pm enable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'
+pm enable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'
+pm enable 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'
+pm enable 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'
+pm enable 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'
+pm enable 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'
+pm enable 'com.google.android.gsf/.update.SystemUpdateActivity'
+pm enable 'com.google.android.gsf/.update.SystemUpdatePanoActivity'
+pm enable 'com.google.android.gsf/.update.SystemUpdateService$Receiver'
+pm enable 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'
+
+am start -a android.intent.action.MAIN -e toasttext "Some eXtra Doze for Battery" -n mkadp.toast/.MainActivity
+
+kmsg2 "Applying some Battery Life Doze..."
+kmsg2 "----"
+
+# Doze battery life;
+settings delete global device_idle_constants;
+settings put global device_idle_constants inactive_to=60000,sensing_to=0,locating_to=0,location_accuracy=2000,motion_inactive_to=0,idle_after_inactive_to=0,idle_pending_to=60000,max_idle_pending_to=120000,idle_pending_factor=2.0,idle_to=900000,max_idle_to=21600000,idle_factor=2.0,max_temp_app_whitelist_duration=60000,mms_temp_app_whitelist_duration=30000,sms_temp_app_whitelist_duration=20000,light_after_inactive_to=10000,light_pre_idle_to=60000,light_idle_to=180000,light_idle_factor=2.0,light_max_idle_to=900000,light_idle_maintenance_min_budget=30000,light_idle_maintenance_max_budget=60000;
+dumpsys deviceidle step deep doze;
+
+kmsg $(date) 
+kmsg "Some extra doze done"
+kmsg "----"
+
+kmsg $(date) 
+kmsg "Kernel and CPU Level Tweaks Started"
+kmsg "----"
+
+kmsg2 $(date) 
+kmsg2 "Kernel and CPU Level Tweaks"
+kmsg2 "----"
+kmsg2 "Logs for these will go in"
+kmsg2 "hlevel log file with details....."
+kmsg2 "----"
+kmsg2 "Now applying..."
+kmsg2 "----"
+
+am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
+
+# Custom CPUSet
+ctl /dev/cpuset/background/cpus 5
+ctl /dev/cpuset/camera-daemon/cpus "1,7"
+ctl /dev/cpuset/foreground/cpus 0-1
+ctl /dev/cpuset/kernel/cpus 6
+ctl /dev/cpuset/restricted/cpus 6-7
+ctl /dev/cpuset/system-background/cpus 5-6
+ctl /dev/cpuset/top-app/cpu 0-7
+
+# Force all CPUs Governor to schedutil
+ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu5/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor schedutil
+ctl /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor schedutil
+
+# Fequency tweaks to all CPUs
+ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/pl 0
+
+ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 0
+ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+# Other CPU tweaks
+ctl /dev/cpuctl/cpu.shares 1024
+
+# Force switch off some headache created by kernel logging in case kernel have it enabled;
+ctl /proc/sys/debug/exception-trace 0
+
+# Optimized tweaks & enhancements for a improved userspace experience;
+ctl /proc/sys/fs/dir-notify-enable 0
+ctl /proc/sys/fs/lease-break-time 20
+
+# Entropy tweaks for a slight UI responsivness boost;
+ctl /proc/sys/kernel/random/urandom_min_reseed_secs 90
+
+# kernel tweaks to remove wasted CPU cycles kind of headache for kernel
+ctl /proc/sys/kernel/panic 0
+ctl /proc/sys/kernel/panic_on_oops 0
+ctl /proc/sys/kernel/sched_tunable_scaling 0
+
+# disable kernel printk console
+ctl /proc/sys/kernel/printk "0 0 0 0"
+
+# Increase how much CPU bandwidth (CPU time) realtime to lightly improved system stability and minimized chance of system freezes & lockups;
+ctl /proc/sys/kernel/sched_rt_runtime_us 955000
+
+# Network tweaks to reduced battery consumption when being "actively" connected to a network;
+ctl /proc/sys/net/core/netdev_max_backlog 128
+ctl /proc/sys/net/core/netdev_tstamp_prequeue 0
+ctl /proc/sys/net/ipv4/ipfrag_time 24
+ctl /proc/sys/net/ipv4/tcp_congestion_control westwood
+ctl /proc/sys/net/ipv4/tcp_ecn 1
+ctl /proc/sys/net/ipv4/tcp_fastopen 3
+ctl /proc/sys/net/ipv4/tcp_sack 1
+ctl /proc/sys/net/ipv4/tcp_fack 1
+ctl /proc/sys/net/ipv4/tcp_tw_reuse 1
+ctl /proc/sys/net/ipv4/tcp_dsack 1
+ctl /proc/sys/net/ipv4/tcp_fwmark_accept 0
+ctl /proc/sys/net/ipv4/tcp_keepalive_intvl 320
+ctl /proc/sys/net/ipv4/tcp_keepalive_time 21600
+ctl /proc/sys/net/ipv4/tcp_no_metrics_save 1
+ctl /proc/sys/net/ipv4/tcp_slow_start_after_idle 0
+ctl /proc/sys/net/ipv6/ip6frag_time 48
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+# VMemory tweaks big improved balance between performance and battery life;
+ctl /proc/sys/vm/drop_caches 1
+ctl /proc/sys/vm/dirty_background_ratio 11
+ctl /proc/sys/vm/dirty_expire_centisecs 400
+ctl /proc/sys/vm/page-cluster 0
+ctl /proc/sys/vm/dirty_ratio 20
+ctl /proc/sys/vm/laptop_mode 0
+ctl /proc/sys/vm/block_dump 0
+ctl /proc/sys/vm/compact_memory 1
+ctl /proc/sys/vm/dirty_writeback_centisecs 3000
+ctl /proc/sys/vm/oom_dump_tasks 0
+ctl /proc/sys/vm/oom_kill_allocating_task 0
+ctl /proc/sys/vm/stat_interval 1103
+ctl /proc/sys/vm/panic_on_oom 0
+ctl /proc/sys/vm/swappiness 30
+ctl /proc/sys/vm/vfs_cache_pressure 94
+ctl /proc/sys/vm/overcommit_ratio 50
+ctl /proc/sys/vm/extra_free_kbytes 24300
+ctl /proc/sys/kernel/random/read_wakeup_threshold 64
+ctl /proc/sys/kernel/random/write_wakeup_threshold 910
+ctl /sys/module/lowmemorykiller/parameters/minfree "21816,29088,36360,43632,50904,65448"
+ctl /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 0
+
+ctl /sys/module/lowmemorykiller/parameters/oom_reaper 1
+
+ctl /d/tracing/tracing_on 0
+ctl /sys/module/rmnet_data/parameters/rmnet_data_log_level 0
+
+ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_cmd 0
+ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_ctxt 0
+ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_drv 0
+ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_mem 0
+ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_pwr 0
+
+# Turn off a few kernel debuggers for slight boost in both performance and battery life;
+ctl /sys/module/bluetooth/parameters/disable_ertm Y
+ctl /sys/module/bluetooth/parameters/disable_esco Y
+ctl /sys/module/dwc3/parameters/ep_addr_rxdbg_mask 0
+ctl /sys/module/dwc3/parameters/ep_addr_txdbg_mask 0
+ctl /sys/module/dwc3_msm/parameters/disable_host_mode 0
+ctl /sys/module/hid_apple/parameters/fnmode 0
+ctl /sys/module/hid/parameters/ignore_special_drivers 0
+ctl /sys/module/hid_magicmouse/parameters/emulate_3button N
+ctl /sys/module/hid_magicmouse/parameters/emulate_scroll_wheeL N
+ctl /sys/module/hid_magicmouse/parameters/scroll_speed 0
+ctl /sys/module/mdss_fb/parameters/backlight_dimmer Y
+ctl /sys/module/workqueue/parameters/power_efficient Y
+ctl /sys/module/sync/parameters/fsync_enabled N
+ctl /sys/module/binder/parameters/debug_mask 0
+ctl /sys/module/debug/parameters/enable_event_log 0
+ctl /sys/module/glink/parameters/debug_mask 0
+ctl /sys/module/ip6_tunnel/parameters/log_ecn_error N
+ctl /sys/module/subsystem_restart/parameters/enable_ramdumps 0
+ctl /sys/module/lowmemorykiller/parameters/debug_level 0
+ctl /sys/module/logger/parameters/log_mode 2
+ctl /sys/module/msm_show_resume_irq/parameters/debug_mask 0
+ctl /sys/module/msm_smd_pkt/parameters/debug_mask 0
+ctl /sys/module/sit/parameters/log_ecn_error N
+ctl /sys/module/smp2p/parameters/debug_mask 0
+ctl /sys/module/usb_bam/parameters/enable_event_log 0
+ctl /sys/module/printk/parameters/console_suspend Y
+ctl /sys/module/printk/parameters/cpu N
+ctl /sys/module/printk/parameters/ignore_loglevel N
+ctl /sys/module/printk/parameters/pid N
+ctl /sys/module/printk/parameters/time N
+ctl /sys/module/service_locator/parameters/enable 0
+ctl /sys/module/subsystem_restart/parameters/disable_restart_work 1
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+for i in $(find /sys/ -name debug_mask); do
+ctl $i 0
+done
+for i in $(find /sys/ -name debug_level); do
+ctl $i 0
+done
+for i in $(find /sys/ -name edac_mc_log_ce); do
+ctl $i 0
+done
+for i in $(find /sys/ -name edac_mc_log_ue); do
+ctl $i 0
+done
+for i in $(find /sys/ -name enable_event_log); do
+ctl $i 0
+done
+for i in $(find /sys/ -name log_ecn_error); do
+ctl $i 0
+done
+for i in $(find /sys/ -name snapshot_crashdumper); do
+ctl $i 0
+done
+
+# Some Misc
+for i in /sys/devices/virtual/block/*/queue/iosched; do
+  ctl $i/group_idle 1
+done
+
+for i in /sys/devices/virtual/block/*/queue/iosched; do
+ ctl $i/low_latency 0
+done
+
+for g in /sys/block/*/queue;do
+ctl "${g}"/add_random 0
+ctl "${g}"/iostats 0
+ctl "${g}"/nomerges 2
+ctl "${g}"/rotational 0
+ctl "${g}"/rq_affinity 1
+ctl "${g}"/iosched/slice_idle 0
+ctl "${g}"/iosched/low_latency 0
+ctl "${g}"/scheduler cfq
+ctl "${g}"/read_ahead_kb 128
+done
+
+for iosched in /sys/block/*/queue/iosched
+do
+    ctl "$iosched"/slide_idle 0
+    ctl "$iosched"/group_idle 1
+done
+
+if [ -d /dev/stune ];then
+ctl /dev/stune/background/schedtune.boost -12
+STN=$($B cat /dev/stune/top-app/schedtune.boost);
+ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
+fi
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+# Dev Stune Boost
+# Fast Sensivity in Game
+ctl /dev/stune/background/schedtune.boost 0
+ctl /dev/stune/foreground/schedtune.boost 0
+ctl /dev/stune/rt/schedtune.boost 0
+ctl /dev/stune/top-app/schedtune.boost 0
+ctl /dev/stune/schedtune.boost 0
+ctl /dev/stune/nnapi-hal/schedtune.boost 0
+ctl /dev/stune/nnapi-hal/schedtune.prefer_idle 1
+ctl /dev/stune/top-app/schedtune.prefer_idle 1
+ctl /dev/stune/background/schedtune.prefer_idle 1
+ctl /dev/stune/foreground/schedtune.prefer_idle 1
+ctl /dev/stune/rt/schedtune.prefer_idle 1
+ctl /dev/stune/schedtune.prefer_idle 1
+
+# Fs
+ctl /proc/sys/fs/lease-break-time 15
+ctl /proc/sys/kernel/perf_cpu_time_max_percent 25
+ctl /proc/sys/kernel/sched_min_task_util_for_colocation 100
+ctl /proc/sys/kernel/sched_min_task_util_for_boost 100
+ctl /proc/sys/kernel/sched_child_runs_first 0
+ctl /proc/sys/kernel/sched_boost_top_app 0
+ctl /proc/sys/kernel/sched_walt_rotate_big_tasks 0
+ctl /proc/sys/kernel/sched_boost 0
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+# Boost Control Tweak
+# Credits to @Ratoriku
+ctl /sys/module/boost_control/parameters/app_launch_boost_ms 0
+
+# GPU frequency based throttling;
+ctl /sys/class/kgsl/kgsl-3d0/throttling 1
+ctl /sys/class/kgsl/kgsl-3d0/default_pwrlevel 4
+ctl /sys/class/kgsl/kgsl-3d0/bus_split 1
+
+#1028 readahead KB
+ctl /sys/block/sde/queue/read_ahead_kb 1028
+ctl /sys/block/sdf/queue/read_ahead_kb 1028
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+# For Idle battery Life
+ctl /sys/class/misc/boeffla_wakelock_blocker/wakelock_blocker "qcom_rx_wakelock;wlan;wlan_wow_wl;wlan_extscan_wl;netmgr_wl;NETLINK;IPA_WS;[timerfd];wlan_ipa;wlan_pno_wl;wcnss_filter_lock;IPCRTR_lpass_rx;hal_bluetooth_lock"
+
+# For Net Speed
+for i in $(find /sys/class/net -type l); do
+  ctl $i/tx_queue_len 128
+done
+ctl /sys/module/tcp_cubic/parameters/hystart_detect 2
+
+# Misc Kernel Teaks
+ctl /sys/kernel/debug/sched_features NO_NEXT_BUDDY
+
+for cpu in /sys/devices/system/cpu/*/sched_load_boost
+do
+    ctl "$cpu" 0
+done
+
+
+for boost in /sys/devices/system/*/cpu_boost
+do
+    ctl "$boost"/sched_boost_on_input 0
+    ctl "$boost"/sched_boost_on_powerkey_input 0
+    ctl "$boost"/input_boost_ms 0
+    ctl "$boost"/powerkey_input_boost_ms 0
+done
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
+ctl /sys/module/lowmemorykiller/parameters/cost 16
+chmod -h 644 /sys/module/lowmemorykiller/parameters/adj
+ctl /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,7,15"
+
+
+ctl /sys/power/pm_freeze_timeout 25000
+
+# Dalvik
+
+if [ $(find /data/dalvik-cache/arm64 -type f | wc -l) -lt 250 ]; then
+	cmd package bg-dexopt-job
+fi
+
+# DS
+
+for i in `ls /sys/class/scsi_disk/`; do
+  cat /sys/class/scsi_disk/$i/write_protect 2>/dev/null | grep 1 >/dev/null
+  if [ $? -eq 0 ]; then
+    ctl /sys/class/scsi_disk/$i/cache_type 'temporary none'
+  fi
+done
+
+# Disabling Debug ( Reduces the Power Usage )
+# All Credits to @Bug_Founder_S10_S8 ( Nuked Dev )
+
+for debug in /sys/kernel/debug/tracing/events/*/enable
+do
+    ctl "$debug" 0
+done
+for tracing in /sys/kernel/tracing/events/*/enable
+do
+    ctl "$tracing" 0
+done
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
+ctl /sys/wifi/logtrace 0
+ctl /sys/wifi/control_logtrace 0
+ctl /sys/wifi/logdump_ecntr_enable 0
+ctl /sys/power/pm_debug_messages 0
+ctl /sys/kernel/debug/debug_enabled N
+ctl /sys/kernel/debug/seclog/seclog_debug N
+ctl /sys/kernel/debug/tracing/tracing_on 0
+ctl /proc/sys/debug/exception-trace 0
+ctl /d/tracing/tracing_on 0
+ctl /sys/kernel/debug/sched_debug N
+ctl /proc/sys/dev/scsi/logging_level 0
+ctl /sys/kernel/tracing/options/trace_printk 0
+ctl /sys/module/printk/parameters/console_suspend Y
+ctl /sys/module/printk/parameters/ignore_loglevel Y
+ctl /sys/module/printk/parameters/time N
+ctl /proc/sys/kernel/printk 0 0 0 0
+ctl /proc/sys/kernel/printk_devkmsg off
+
+for i in ` find /sys/module -name debug_mask`; do  
+	ctl $i 0
+done
+
+am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Tweaks Applied" -n mkadp.toast/.MainActivity
+
+kmsg2 $(date) 
+kmsg2 "Applied..."
+kmsg2 "----"
+
+kmsg2 "Some other heavy works started..."
+kmsg2 "----"
+
+am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
+
+#AddonOn62x1
+list="com.android.systemui com.google.android.launcher org.lineageos.trebuchet com.google.android.apps.plus com.deletescape.launchair com.android.launcher3 com.actionlauncher.playstore com.yandex.launcher com.google.android.apps.nexuslauncher com.miui9launcher.miuithemes com.huawei.android.launcher com.miui.home com.cma.launcher.lite com.jiubang.go.mini.launcher com.kkmlauncher-1 com.uprui.launcher.marshmallow com.android.launcher org.adw.launcher org.adwfreak.launcher net.alamoapps.launcher com.anddoes.launcher com.android.lmt com.chrislacy.actionlauncher.pro com.cyanogenmod.trebuchet com.gau.go.launcherex com.gtp.nextlauncher com.miui.mihome2 com.mobint.hololauncher com.mobint.hololauncher.hd com.qihoo360.launcher com.teslacoilsw.launcher com.tsf.shell org.zeam com.sonyericsson.home com.xperiaZ5.home com.sonymobile.simplehome com.teslacoilsw.launcher.prime com.miui.home com.anddoes.launcher.pro-1 com.anddoes.launcher-2 com.actionlauncher.playstore com.lge.launcher2 com.sec.android.app.launcher com.sec.android.app.twlauncher com.gtp.nextlauncher com.cyanogenport.trebuchet net.oneplus.launcher com.whatsapp org.thunderdog.challegram com.mkadp.blapp"
+
+renice -n 0 $(pgrep zygote) 2>/dev/null
+renice -n -20 $(pgrep kswapd0) 2>/dev/null
+renice -n 19 $(pgrep android.process.media) 2>/dev/null
+
+for class in $list; do
+	if [ `pidof $class` ]; then
+	  launcher=`pidof $class`;
+	  ctl /proc/$launcher/oom_adj -17
+	  renice -n -18 $launcher 2>/dev/null
+	fi
+done
+
+#Optimizing and defragging database files 4-0
+
+sq=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
+zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
+
+am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
+
+for i in $(find /data -iname *.db); do
+	$sq $i 'VACUUM;'
+	$sq $i 'REINDEX;'
+done
+
+for i in \
+`find /data -iname "*.db"`; 
+do \
+	$sq $i 'VACUUM;'; 
+	$sq $i 'REINDEX;'; 
+done;
+
+ZIPALIGNDB=/data/zipalign.db
+
+if [ ! -f $ZIPALIGNDB ]; then
+	touch $ZIPALIGNDB
+fi
+
+kmsg2 $(date)
+kmsg2 "Done"
+kmsg2 "Another heavy works started..."
+kmsg2 "----"
+#Zip4-0
+kmsg $(date)
+kmsg "Starting Auto ZipAlign" 
+
+kmsg2 "Starting Auto ZipAlign" 
+kmsg2 "=========="
+
+am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
+
+ZIPALIGNDB=/data/zipalign.db
+
+if [ ! -f $ZIPALIGNDB ]; then
+	touch $ZIPALIGNDB
+fi
+
+for DIR in /data/app /system/app /system/priv-app /system/system_ext/app /system/system_ext/priv-app
+do
+	cd $DIR;
+	for APK in *.apk */*.apk
+	do
+		if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ]; then
+			kmsg2 "Already checked: $DIR/$APK" 
+		else
+			ZIPCHECK=`$zipal -c -v 4 $APK | grep FAILED | wc -l`
+			if [ $ZIPCHECK == "1" ]; then
+				kmsg2 "Now aligning: $DIR/$APK" 
+				$zipal -f 4 $APK /data/local/$APK
+				rc = "$?"
+				if [ $rc -eq 0 ]; then
+					if [ -e "/data/local/$APK" ]; then
+						cp -f -p "/data/local/$APK" "$APK" 
+						rm -f "/data/local/$APK";
+						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
+					else
+						kmsg2 "ZipAligning $APK Failed (no output file)"  
+					fi
+				else
+					[ -f "/data/local/$APK" ] && rm -f "/data/local/$APK"
+					kmsg2 "ZipAligning $APK Failed (rc: $rc)"  
+				fi
+			else
+				kmsg2 "Already aligned: $DIR/$APK" ;
+				grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
+			fi
+		fi
+	done
+done
+
+touch $ZIPALIGNDB
+
+am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
+
+kmsg2 $(date)
+kmsg2 "=========="
+kmsg2 "Done Auto ZipAlign" 
+kmsg2 "=========="
+
+kmsg2 "Many heavy works done..."
+kmsg2 "Let me breathe..."
+kmsg2 "----"
+
+kmsg $(date) 
+kmsg "Some shits will be removed"
+kmsg "----"
+
+kmsg2 $(date)
+kmsg2 "Some shits will be removed"
+kmsg2 "----"
+
+am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
+
+# This shit shouled be cleaned
+rm -Rf /cache/*.apk;
+rm -f /data/*.log;
+rm -f /data/*.txt;
+rm -f /data/anr/*;
+rm -f /data/backup/pending/*.tmp;
+rm -f /data/cache/*.*;
+rm -f /data/data/*.log;
+rm -f /data/data/*.txt;
+rm -f /data/log/*.log;
+rm -f /data/log/*.txt;
+rm -f /data/local/*.apk;
+rm -f /data/local/*.log;
+rm -f /data/local/*.txt;
+rm -f /data/local/tmp/*;
+rm -f /data/last_alog/*.log;
+rm -f /data/last_alog/*.txt;
+rm -f /data/last_kmsg/*.log;
+rm -f /data/last_kmsg/*.txt;
+rm -f /data/mlog/*;
+rm -f /data/system/*.log;
+rm -f /data/system/*.txt;
+rm -f /data/system/dropbox/*;
+rm -Rf /data/system/usagestats/*;
+rm -f /data/system/shared_prefs/*;
+rm -f /data/tombstones/*;
+rm -Rf /data/media/0/LOST.DIR;
+
+kmsg $(date) 
+kmsg "Some shits are removed"
+kmsg "----"
+kmsg2 $(date) 
+kmsg2 "Done"
+kmsg2 "----"
+
+kmsg $(date) 
+kmsg "fsrtim"
+kmsg "----"
+
+kmsg2 "Let's do some fstrim tweak..."
+kmsg2 "----"
+
+am start -a android.intent.action.MAIN -e toasttext "Applying some Xtra Tweaks..." -n mkadp.toast/.MainActivity
+
+fst=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/fstrim
+
+$fst -v /data;
+$fst -v /system;
+$fst -v /cache;
+$fst -v /vendor;
+$fst -v /product;
+
+kmsg $(date) 
+kmsg "fstrim done"
+kmsg "----"
+
+kmsg2 $(date) 
+kmsg2 "All Done."
+kmsg2 "Enjoy ButterLimits"
+kmsg2 "----"
+
+am start -a android.intent.action.MAIN -e toasttext "All Done" -n mkadp.toast/.MainActivity
+
+$BB rm -rf $LOG2
+$BB cp -rf $LOGBL2 $LOG2 
+
+# Push a semi-needed log to the internal storage with a "report" if the script could be executed or not;
+kmsg $(date) 
+kmsg "MKADP HAS EXECUTED TASK SUCCESSFULLY. ENJOY!" 
+
 kmsg3 $(date) 
 kmsg3 "ButterLimits Enabled"
 kmsg3 "----"
 
 $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapp/files/YourBLchanges.log
+
+am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
 
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
@@ -48,5 +805,5 @@ sleep 2
 am start -a android.intent.action.MAIN -e toasttext "Rebooting Now..." -n mkadp.toast/.MainActivity
 
 sleep 2
-
+sync
 reboot
