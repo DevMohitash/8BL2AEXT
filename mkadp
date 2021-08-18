@@ -55,6 +55,8 @@ kmsg2() {
 _ctl() {
 	# Bail out if file does not exist
 	[[ ! -f "$1" ]] && return 1
+	
+	chmod +w "$1" 2> /dev/null
 
 	# Fetch the current key value
 	local curval=`cat "$1" 2> /dev/null`
@@ -79,6 +81,8 @@ _ctl() {
 ctl() {
 	_ctl $@
 }
+
+sync
 
 # Print device information prior to execution
 kmsg2 $(date) 
