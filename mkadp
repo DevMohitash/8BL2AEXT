@@ -439,7 +439,8 @@ done
 
 am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
-for g in /sys/block/*/queue;do
+for g in /sys/block/*/queue;
+do
 ctl "${g}"/add_random 0
 ctl "${g}"/iostats 0
 ctl "${g}"/nomerges 2
@@ -459,7 +460,8 @@ do
     ctl "$iosched"/group_idle 1
 done
 
-if [ -d /dev/stune ];then
+if [ -d /dev/stune ];
+then
 ctl /dev/stune/background/schedtune.boost -12
 STN=$($B cat /dev/stune/top-app/schedtune.boost);
 ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
@@ -526,6 +528,7 @@ do
     ctl "$cpu" 0
 done
 
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 for boost in /sys/devices/system/*/cpu_boost
 do
