@@ -309,8 +309,6 @@ ctl /proc/sys/kernel/printk "0 0 0 0"
 # Increase how much CPU bandwidth (CPU time) realtime to lightly improved system stability and minimized chance of system freezes & lockups;
 ctl /proc/sys/kernel/sched_rt_runtime_us 955000
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 # Network tweaks to reduced battery consumption when being "actively" connected to a network;
 ctl /proc/sys/net/core/netdev_max_backlog 128
 ctl /proc/sys/net/core/netdev_tstamp_prequeue 0
@@ -362,8 +360,6 @@ ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_ctxt 0
 ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_drv 0
 ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_mem 0
 ctl /sys/kernel/debug/kgsl/kgsl-3d0/log_level_pwr 0
-
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 # Turn off a few kernel debuggers for slight boost in both performance and battery life;
 ctl /sys/module/bluetooth/parameters/disable_ertm Y
@@ -423,8 +419,6 @@ for i in $(find /sys/ -name snapshot_crashdumper); do
 ctl $i 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 # Some Misc
 for i in /sys/devices/virtual/block/*/queue/iosched; do
   ctl $i/group_idle 1
@@ -463,8 +457,6 @@ ctl /dev/stune/background/schedtune.boost -12
 STN=$($B cat /dev/stune/top-app/schedtune.boost);
 ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
 fi
-
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 # Dev Stune Boost
 # Fast Sensivity in Game
@@ -540,8 +532,6 @@ ctl /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,7,15"
 
 
 ctl /sys/power/pm_freeze_timeout 25000
-
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 # Dalvik
 
