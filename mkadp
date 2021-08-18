@@ -426,6 +426,8 @@ for i in $(find /sys/ -name snapshot_crashdumper); do
 ctl $i 0
 done
 
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
 # Some Misc
 for i in /sys/devices/virtual/block/*/queue/iosched; do
   ctl $i/group_idle 1
@@ -434,6 +436,8 @@ done
 for i in /sys/devices/virtual/block/*/queue/iosched; do
  ctl $i/low_latency 0
 done
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 for g in /sys/block/*/queue;do
 ctl "${g}"/add_random 0
@@ -446,6 +450,8 @@ ctl "${g}"/iosched/low_latency 0
 ctl "${g}"/scheduler cfq
 ctl "${g}"/read_ahead_kb 128
 done
+
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 for iosched in /sys/block/*/queue/iosched
 do
