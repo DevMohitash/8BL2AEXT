@@ -789,7 +789,7 @@ kmsglog "ZRAM Disabled"
 kmsglog "----"
 #
 kmsglog2 $(date) 
-kmsglog2 "Disabling ZRAM"
+kmsglog2 "ZRAM Disable"
 kmsglog2 "----"
 #
 
