@@ -87,7 +87,7 @@ ctl() {
 # Print device information prior to execution
 kmsg2 $(date) 
 kmsg2 "ButterLimits Mode"
-kmsg2 "Verson 7.0"
+kmsg2 "Verson 8.0"
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" -n mkadp.toast/.MainActivity
