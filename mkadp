@@ -758,6 +758,32 @@ $fst -v /product;
 kmsg $(date) 
 kmsg "fstrim done"
 kmsg "----"
+#
+kmsglog $(date) 
+kmsglog "Disabling ZRAM"
+kmsglog "----"
+#
+kmsglog2 $(date) 
+kmsglog2 "Disabling ZRAM"
+kmsglog2 "----"
+#
+swapoff /dev/zram0
+swapoff /dev/block/zram0
+swapoff /dev/block/vnswap0
+ctl /sys/block/zram0/reset 1
+ctl /sys/block/zram0/disksize 0
+ctl /sys/block/vnswap0/reset 1
+ctl /sys/block/vnswap0/disksize 0
+ctl /proc/sys/vm/swappiness 0
+#
+kmsglog $(date) 
+kmsglog "ZRAM Disabled"
+kmsglog "----"
+#
+kmsglog2 $(date) 
+kmsglog2 "ZRAM Disable"
+kmsglog2 "----"
+#
 
 kmsg2 $(date) 
 kmsg2 "All Done."
