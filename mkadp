@@ -804,4 +804,4 @@ am start -a android.intent.action.MAIN -e toasttext "Rebooting Now..." -n mkadp.
 
 sleep 2
 sync
-reboot
+exit 0
