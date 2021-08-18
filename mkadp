@@ -423,6 +423,8 @@ for i in $(find /sys/ -name snapshot_crashdumper); do
 ctl $i 0
 done
 
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
 # Some Misc
 for i in /sys/devices/virtual/block/*/queue/iosched; do
   ctl $i/group_idle 1
@@ -434,7 +436,8 @@ done
 
 am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
-for g in /sys/block/*/queue;do
+for g in /sys/block/*/queue;
+do
 ctl "${g}"/add_random 0
 ctl "${g}"/iostats 0
 ctl "${g}"/nomerges 2
@@ -446,13 +449,16 @@ ctl "${g}"/scheduler cfq
 ctl "${g}"/read_ahead_kb 64
 done
 
+am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+
 for iosched in /sys/block/*/queue/iosched
 do
     ctl "$iosched"/slide_idle 0
     ctl "$iosched"/group_idle 1
 done
 
-if [ -d /dev/stune ];then
+if [ -d /dev/stune ];
+then
 ctl /dev/stune/background/schedtune.boost -12
 STN=$($B cat /dev/stune/top-app/schedtune.boost);
 ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
