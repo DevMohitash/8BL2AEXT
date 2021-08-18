@@ -285,8 +285,6 @@ ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 2000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 # Other CPU tweaks
 ctl /dev/cpuctl/cpu.shares 1024
 
@@ -397,8 +395,6 @@ ctl /sys/module/printk/parameters/time N
 ctl /sys/module/service_locator/parameters/enable 0
 ctl /sys/module/subsystem_restart/parameters/disable_restart_work 1
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 for i in $(find /sys/ -name debug_mask); do
 ctl $i 0
 done
@@ -430,8 +426,6 @@ for i in /sys/devices/virtual/block/*/queue/iosched; do
  ctl $i/low_latency 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 for g in /sys/block/*/queue;
 do
 ctl "${g}"/add_random 0
@@ -459,8 +453,6 @@ ctl /dev/stune/background/schedtune.boost -12
 STN=$($B cat /dev/stune/top-app/schedtune.boost);
 ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
 fi
-
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 # Dev Stune Boost
 # Fast Sensivity in Game
@@ -516,8 +508,6 @@ for cpu in /sys/devices/system/cpu/*/sched_load_boost
 do
     ctl "$cpu" 0
 done
-
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
 
 for boost in /sys/devices/system/*/cpu_boost
 do
