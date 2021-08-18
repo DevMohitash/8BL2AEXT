@@ -17,8 +17,6 @@ sleep 1
 
 am start -a android.intent.action.MAIN -e toasttext "Preparing..." -n mkadp.toast/.MainActivity
 
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/zbloff.sh /data/adb/modules/butterlimitsforop7poos11uni/post-fs-data.sh
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadpx/mkadpbl.sh /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadpx/mkadp.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/module.prop /data/adb/modules/butterlimitsforop7poos11uni
 
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/etc/sysconfig/power_profile_com.google.android.gm.xml /data/adb/modules/butterlimitsforop7poos11uni/system/etc/sysconfig/power_profile_com.google.android.gm.xml
