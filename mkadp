@@ -180,6 +180,7 @@ dumpsys deviceidle unfore
 settings put global aggressive_idle_enabled "0"
 settings put global aggressive_standby_enabled "0"
 dumpsys battery reset
+dumpsys deviceidle whitelist +com.mkapd.blapptwo
 am set-inactive com.mkapd.blapptwo false
 
 kmsg $(date) 
