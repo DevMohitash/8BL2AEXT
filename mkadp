@@ -808,11 +808,11 @@ am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toas
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
 
-dumpsys deviceidle enable all;
-dumpsys deviceidle enabled all;
-dumpsys deviceidle force-idle
-settings put global aggressive_idle_enabled "1"
-settings put global aggressive_standby_enabled "1"
+#dumpsys deviceidle enable all;
+#dumpsys deviceidle enabled all;
+#dumpsys deviceidle force-idle
+#settings put global aggressive_idle_enabled "1"
+#settings put global aggressive_standby_enabled "1"
 
 am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
 am start -n com.mkadp.blapptwo/.activities.LogsActivity
