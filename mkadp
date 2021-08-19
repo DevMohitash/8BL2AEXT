@@ -182,6 +182,7 @@ settings put global aggressive_standby_enabled "0"
 dumpsys battery reset
 dumpsys deviceidle whitelist +com.mkapd.blapptwo
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 kmsg $(date) 
 kmsg "GMS doze done"
@@ -248,6 +249,7 @@ ctl /dev/cpuset/system-background/cpus 5-6
 ctl /dev/cpuset/top-app/cpu 0-7
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Force all CPUs Governor to schedutil
 ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
@@ -293,6 +295,7 @@ ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 2000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Other CPU tweaks
 ctl /dev/cpuctl/cpu.shares 1024
@@ -319,6 +322,7 @@ ctl /proc/sys/kernel/printk "0 0 0 0"
 ctl /proc/sys/kernel/sched_rt_runtime_us 955000
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Network tweaks to reduced battery consumption when being "actively" connected to a network;
 ctl /proc/sys/net/core/netdev_max_backlog 128
@@ -407,6 +411,7 @@ ctl /sys/module/service_locator/parameters/enable 0
 ctl /sys/module/subsystem_restart/parameters/disable_restart_work 1
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 for i in $(find /sys/ -name debug_mask); do
 ctl $i 0
@@ -431,6 +436,7 @@ ctl $i 0
 done
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Some Misc
 for i in /sys/devices/virtual/block/*/queue/iosched; do
@@ -442,6 +448,7 @@ for i in /sys/devices/virtual/block/*/queue/iosched; do
 done
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 for g in /sys/block/*/queue;
 do
@@ -472,6 +479,7 @@ ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
 fi
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Dev Stune Boost
 # Fast Sensivity in Game
@@ -499,6 +507,7 @@ ctl /proc/sys/kernel/sched_walt_rotate_big_tasks 0
 ctl /proc/sys/kernel/sched_boost 0
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Boost Control Tweak
 # Credits to @Ratoriku
@@ -539,6 +548,7 @@ do
 done
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
 
@@ -559,6 +569,7 @@ fi
 # DS
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 for i in `ls /sys/class/scsi_disk/`; do
   cat /sys/class/scsi_disk/$i/write_protect 2>/dev/null | grep 1 >/dev/null
@@ -568,6 +579,7 @@ for i in `ls /sys/class/scsi_disk/`; do
 done
 
 am set-inactive com.mkapd.blapptwo false
+input keyevent KEYCODE_WAKEUP
 
 # Disabling Debug ( Reduces the Power Usage )
 # All Credits to @Bug_Founder_S10_S8 ( Nuked Dev )
