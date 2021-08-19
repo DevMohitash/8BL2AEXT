@@ -172,17 +172,8 @@ pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleT
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
-dumpsys deviceidle disable all;
-dumpsys deviceidle disabled all;
-dumpsys deviceidle disable;
-dumpsys deviceidle disabled;
-dumpsys deviceidle unforce
-settings put global aggressive_idle_enabled "0"
-settings put global aggressive_standby_enabled "0"
-dumpsys battery reset
+
 dumpsys deviceidle whitelist +com.mkapd.blapptwo
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
 
 kmsg $(date) 
 kmsg "GMS doze done"
@@ -248,9 +239,6 @@ ctl /dev/cpuset/restricted/cpus 6-7
 ctl /dev/cpuset/system-background/cpus 5-6
 ctl /dev/cpuset/top-app/cpu 0-7
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 # Force all CPUs Governor to schedutil
 ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
 ctl /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor schedutil
@@ -293,9 +281,6 @@ ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/pl 0
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 2000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
-
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
 
 # Other CPU tweaks
 ctl /dev/cpuctl/cpu.shares 1024
@@ -410,9 +395,6 @@ ctl /sys/module/printk/parameters/time N
 ctl /sys/module/service_locator/parameters/enable 0
 ctl /sys/module/subsystem_restart/parameters/disable_restart_work 1
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 for i in $(find /sys/ -name debug_mask); do
 ctl $i 0
 done
@@ -435,9 +417,6 @@ for i in $(find /sys/ -name snapshot_crashdumper); do
 ctl $i 0
 done
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 # Some Misc
 for i in /sys/devices/virtual/block/*/queue/iosched; do
   ctl $i/group_idle 1
@@ -446,9 +425,6 @@ done
 for i in /sys/devices/virtual/block/*/queue/iosched; do
  ctl $i/low_latency 0
 done
-
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
 
 for g in /sys/block/*/queue;
 do
@@ -478,9 +454,6 @@ STN=$($B cat /dev/stune/top-app/schedtune.boost);
 ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
 fi
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 # Dev Stune Boost
 # Fast Sensivity in Game
 ctl /dev/stune/background/schedtune.boost 0
@@ -505,9 +478,6 @@ ctl /proc/sys/kernel/sched_child_runs_first 0
 ctl /proc/sys/kernel/sched_boost_top_app 0
 ctl /proc/sys/kernel/sched_walt_rotate_big_tasks 0
 ctl /proc/sys/kernel/sched_boost 0
-
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
 
 # Boost Control Tweak
 # Credits to @Ratoriku
@@ -547,9 +517,6 @@ do
     ctl "$boost"/powerkey_input_boost_ms 0
 done
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
 
 chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
@@ -568,18 +535,12 @@ ctl /sys/power/pm_freeze_timeout 25000
 
 # DS
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 for i in `ls /sys/class/scsi_disk/`; do
   cat /sys/class/scsi_disk/$i/write_protect 2>/dev/null | grep 1 >/dev/null
   if [ $? -eq 0 ]; then
     ctl /sys/class/scsi_disk/$i/cache_type 'temporary none'
   fi
 done
-
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
 
 # Disabling Debug ( Reduces the Power Usage )
 # All Credits to @Bug_Founder_S10_S8 ( Nuked Dev )
@@ -849,6 +810,8 @@ $BB rm -rf /data/dalvik-cache/*
 
 dumpsys deviceidle enable all;
 dumpsys deviceidle enabled all;
+dumpsys deviceidle enable;
+dumpsys deviceidle enabled;
 dumpsys deviceidle force-idle
 settings put global aggressive_idle_enabled "1"
 settings put global aggressive_standby_enabled "1"
