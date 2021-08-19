@@ -172,9 +172,6 @@ pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleT
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
-
-dumpsys deviceidle whitelist +com.mkapd.blapptwo
-
 kmsg $(date) 
 kmsg "GMS doze done"
 kmsg "----"
