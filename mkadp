@@ -303,9 +303,6 @@ ctl /proc/sys/kernel/printk "0 0 0 0"
 # Increase how much CPU bandwidth (CPU time) realtime to lightly improved system stability and minimized chance of system freezes & lockups;
 ctl /proc/sys/kernel/sched_rt_runtime_us 955000
 
-am set-inactive com.mkapd.blapptwo false
-input keyevent KEYCODE_WAKEUP
-
 # Network tweaks to reduced battery consumption when being "actively" connected to a network;
 ctl /proc/sys/net/core/netdev_max_backlog 128
 ctl /proc/sys/net/core/netdev_tstamp_prequeue 0
