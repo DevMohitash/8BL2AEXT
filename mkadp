@@ -439,7 +439,7 @@ ctl "${g}"/scheduler cfq
 ctl "${g}"/read_ahead_kb 128
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-01...Please Wait" -n mkadp.toast/.MainActivity
 
 for iosched in /sys/block/*/queue/iosched
 do
@@ -517,7 +517,7 @@ do
     ctl "$boost"/powerkey_input_boost_ms 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
 
 chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
 ctl /sys/module/lowmemorykiller/parameters/cost 16
@@ -554,7 +554,7 @@ do
     ctl "$tracing" 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-03...Please Wait" -n mkadp.toast/.MainActivity
 
 ctl /sys/wifi/logtrace 0
 ctl /sys/wifi/control_logtrace 0
