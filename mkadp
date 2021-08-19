@@ -562,9 +562,9 @@ ctl /sys/power/pm_freeze_timeout 25000
 
 # Dalvik
 
-if [ $(find /data/dalvik-cache/arm64 -type f | wc -l) -lt 250 ]; then
-	cmd package bg-dexopt-job
-fi
+#if [ $(find /data/dalvik-cache/arm64 -type f | wc -l) -lt 250 ]; then
+#	cmd package bg-dexopt-job
+#fi
 
 # DS
 
