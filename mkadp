@@ -849,8 +849,6 @@ $BB rm -rf /data/dalvik-cache/*
 
 dumpsys deviceidle enable all;
 dumpsys deviceidle enabled all;
-dumpsys deviceidle enable;
-dumpsys deviceidle enabled;
 dumpsys deviceidle force-idle
 settings put global aggressive_idle_enabled "1"
 settings put global aggressive_standby_enabled "1"
