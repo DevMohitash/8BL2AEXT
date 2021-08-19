@@ -172,11 +172,15 @@ pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleT
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
-dumpsys deviceidle enable all;
-dumpsys deviceidle enabled all;
-dumpsys deviceidle force-idle
-settings put global aggressive_idle_enabled "1"
-settings put global aggressive_standby_enabled "1"
+dumpsys deviceidle disable all;
+dumpsys deviceidle disabled all;
+dumpsys deviceidle disable;
+dumpsys deviceidle disabled;
+dumpsys deviceidle unfore
+settings put global aggressive_idle_enabled "0"
+settings put global aggressive_standby_enabled "0"
+dumpsys battery reset
+am set-inactive com.mkapd.blapptwo false
 
 kmsg $(date) 
 kmsg "GMS doze done"
@@ -829,6 +833,14 @@ am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toas
 
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
+
+dumpsys deviceidle enable all;
+dumpsys deviceidle enabled all;
+dumpsys deviceidle enable;
+dumpsys deviceidle enabled;
+dumpsys deviceidle force-idle
+settings put global aggressive_idle_enabled "1"
+settings put global aggressive_standby_enabled "1"
 
 am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
 am start -n com.mkadp.blapptwo/.activities.LogsActivity
