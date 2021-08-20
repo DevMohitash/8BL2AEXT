@@ -147,8 +147,8 @@ kmsg2 "----"
 #	kill $(pidof com.google.android.gms.wearable);
 #fi;
 
-pm disable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
-pm disable com.google.android.gms/.common.config.PhenotypeCheckinService
+pm enable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
+pm enable com.google.android.gms/.common.config.PhenotypeCheckinService
 
 am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
 
