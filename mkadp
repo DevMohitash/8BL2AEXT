@@ -13,8 +13,6 @@ kmsg3() {
 
 am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Balanced. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
 
-sleep 1
-
 am start -a android.intent.action.MAIN -e toasttext "Preparing..." -n mkadp.toast/.MainActivity
 
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/module.prop /data/adb/modules/butterlimitsforop7poos11uni
