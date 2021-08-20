@@ -809,5 +809,5 @@ settings put global aggressive_idle_enabled "1"
 settings put global aggressive_standby_enabled "1"
 
 #am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-am start -n com.mkadp.blapptwo/.activities.LogsActivity
+#am start -n com.mkadp.blapptwo/.activities.LogsActivity
 exit 0
