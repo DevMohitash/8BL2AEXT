@@ -86,8 +86,6 @@ ctl() {
 	_ctl $@
 }
 
-sync
-
 # Print device information prior to execution
 #kmsg2 $(date) 
 #kmsg2 "ButterLimits Mode"
