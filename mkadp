@@ -11,9 +11,9 @@ kmsg3() {
 	echo -e "[*] $@" >> $CLOG
 }
 
-am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Balanced. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Balanced. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
 
-am start -a android.intent.action.MAIN -e toasttext "Preparing..." -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Preparing..." -n mkadp.toast/.MainActivity
 
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/module.prop /data/adb/modules/butterlimitsforop7poos11uni
 
@@ -37,7 +37,7 @@ SIZE=$(((RAM * FRACTION / 100) * 1048576))
 #=======================================#
 #=======================================#
 
-am start -a android.intent.action.MAIN -e toasttext "Removing old Logs" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Removing old Logs" -n mkadp.toast/.MainActivity
 
 rm $NEWLOG2
 rm $LOGFU
@@ -45,7 +45,7 @@ rm -rf $LOGBL1
 rm -rf $LOGBL2
 rm -rf $LOG2
 
-am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
 
 kmsg() {
 	echo -e "[*] $@" >> $LOGBL1
@@ -94,7 +94,7 @@ kmsg2 "ButterLimits Mode"
 kmsg2 "Verson 8.0"
 kmsg2 "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" -n mkadp.toast/.MainActivity
 
 kmsg2 "Killing some idle servers to save battery"
 kmsg2 "----"
@@ -108,7 +108,7 @@ kmsg $(date)
 kmsg "Killing some servers done"
 kmsg "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Applying UGMS Doze" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Applying UGMS Doze" -n mkadp.toast/.MainActivity
 
 kmsg2 "UGMS Doze on the go..."
 kmsg2 "----"
@@ -127,7 +127,7 @@ pm enable com.google.android.gms/com.google.android.gms.auth.managed.admin.Devic
 pm enable com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService
 pm enable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
 
-am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
 
 kmsg2 "More Doze on the go..."
 kmsg2 "----"
@@ -148,7 +148,7 @@ kmsg2 "----"
 pm enable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
 pm enable com.google.android.gms/.common.config.PhenotypeCheckinService
 
-am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
 
 kmsg2 "Blocking some GMS....."
 kmsg2 "----"
@@ -168,7 +168,7 @@ pm enable com.google.android.gms/com.google.android.gms.lockbox.LockboxService
 pm enable com.google.android.gms/.measurement.PackageMeasurementTaskService
 pm enable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent
 
-am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
 kmsg $(date) 
 kmsg "GMS doze done"
@@ -196,7 +196,7 @@ pm enable 'com.google.android.gsf/.update.SystemUpdatePanoActivity'
 pm enable 'com.google.android.gsf/.update.SystemUpdateService$Receiver'
 pm enable 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'
 
-am start -a android.intent.action.MAIN -e toasttext "Some eXtra Doze for Battery" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Some eXtra Doze for Battery" -n mkadp.toast/.MainActivity
 
 kmsg2 "Applying some Battery Life Doze..."
 kmsg2 "----"
@@ -223,7 +223,7 @@ kmsg2 "----"
 kmsg2 "Now applying..."
 kmsg2 "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
 
 # Custom CPUSet
 ctl /dev/cpuset/background/cpus 5
@@ -431,7 +431,7 @@ ctl "${g}"/scheduler cfq
 ctl "${g}"/read_ahead_kb 128
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying-01...Please Wait" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Still Applying-01...Please Wait" -n mkadp.toast/.MainActivity
 
 for iosched in /sys/block/*/queue/iosched
 do
@@ -509,7 +509,7 @@ do
     ctl "$boost"/powerkey_input_boost_ms 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
 
 chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
 ctl /sys/module/lowmemorykiller/parameters/cost 16
@@ -546,7 +546,7 @@ do
     ctl "$tracing" 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying-03...Please Wait" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Still Applying-03...Please Wait" -n mkadp.toast/.MainActivity
 
 ctl /sys/wifi/logtrace 0
 ctl /sys/wifi/control_logtrace 0
@@ -570,7 +570,7 @@ for i in ` find /sys/module -name debug_mask`; do
 	ctl $i 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Tweaks Applied" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Tweaks Applied" -n mkadp.toast/.MainActivity
 
 kmsg2 $(date) 
 kmsg2 "Applied..."
@@ -579,7 +579,7 @@ kmsg2 "----"
 kmsg2 "Some other heavy works started..."
 kmsg2 "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
 
 #AddonOn62x1
 list="com.android.systemui com.google.android.launcher org.lineageos.trebuchet com.google.android.apps.plus com.deletescape.launchair com.android.launcher3 com.actionlauncher.playstore com.yandex.launcher com.google.android.apps.nexuslauncher com.miui9launcher.miuithemes com.huawei.android.launcher com.miui.home com.cma.launcher.lite com.jiubang.go.mini.launcher com.kkmlauncher-1 com.uprui.launcher.marshmallow com.android.launcher org.adw.launcher org.adwfreak.launcher net.alamoapps.launcher com.anddoes.launcher com.android.lmt com.chrislacy.actionlauncher.pro com.cyanogenmod.trebuchet com.gau.go.launcherex com.gtp.nextlauncher com.miui.mihome2 com.mobint.hololauncher com.mobint.hololauncher.hd com.qihoo360.launcher com.teslacoilsw.launcher com.tsf.shell org.zeam com.sonyericsson.home com.xperiaZ5.home com.sonymobile.simplehome com.teslacoilsw.launcher.prime com.miui.home com.anddoes.launcher.pro-1 com.anddoes.launcher-2 com.actionlauncher.playstore com.lge.launcher2 com.sec.android.app.launcher com.sec.android.app.twlauncher com.gtp.nextlauncher com.cyanogenport.trebuchet net.oneplus.launcher com.whatsapp org.thunderdog.challegram"
@@ -601,7 +601,7 @@ done
 sq=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
 zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
 
-am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
 
 for i in $(find /data -iname *.db); do
 	$sq $i 'VACUUM;'
@@ -632,7 +632,7 @@ kmsg "Starting Auto ZipAlign"
 kmsg2 "Starting Auto ZipAlign" 
 kmsg2 "=========="
 
-am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
 
 ZIPALIGNDB=/data/zipalign.db
 
@@ -675,7 +675,7 @@ done
 
 touch $ZIPALIGNDB
 
-am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
 
 kmsg2 $(date)
 kmsg2 "=========="
@@ -694,7 +694,7 @@ kmsg2 $(date)
 kmsg2 "Some shits will be removed"
 kmsg2 "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
 
 # This shit shouled be cleaned
 rm -Rf /cache/*.apk;
@@ -738,7 +738,7 @@ kmsg "----"
 kmsg2 "Let's do some fstrim tweak..."
 kmsg2 "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Applying some Xtra Tweaks..." -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Applying some Xtra Tweaks..." -n mkadp.toast/.MainActivity
 
 fst=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/fstrim
 
@@ -795,7 +795,7 @@ kmsg3 "----"
 
 $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapptwo/files/YourBLchanges.log
 
-am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
 
 #$BB rm -rf /cache/*	
 #$BB rm -rf /data/dalvik-cache/*
@@ -808,6 +808,6 @@ dumpsys deviceidle force-idle
 settings put global aggressive_idle_enabled "1"
 settings put global aggressive_standby_enabled "1"
 
-am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
+#am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
 am start -n com.mkadp.blapptwo/.activities.LogsActivity
 exit 0
