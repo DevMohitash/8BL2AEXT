@@ -799,8 +799,8 @@ $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapptwo/files/Y
 
 am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
 
-$BB rm -rf /cache/*	
-$BB rm -rf /data/dalvik-cache/*
+#$BB rm -rf /cache/*	
+#$BB rm -rf /data/dalvik-cache/*
 
 dumpsys deviceidle enable all;
 dumpsys deviceidle enabled all;
