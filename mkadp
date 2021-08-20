@@ -117,38 +117,38 @@ kmsg2 "----"
 
 # GMS Doze
 
-#cmd appops set com.google.android.gms BOOT_COMPLETED allow
-#cmd appops set com.google.android.ims BOOT_COMPLETED allow
-#cmd appops set com.google.android.gsf WAKE_LOCK ignore
-#cmd appops set com.google.android.gms AUTO_START ignore
-#cmd appops set com.google.android.ims AUTO_START allow
-#cmd appops set com.google.android.ims WAKE_LOCK allow
+cmd appops set com.google.android.gms BOOT_COMPLETED allow
+cmd appops set com.google.android.ims BOOT_COMPLETED allow
+cmd appops set com.google.android.gsf WAKE_LOCK ignore
+cmd appops set com.google.android.gms AUTO_START ignore
+cmd appops set com.google.android.ims AUTO_START allow
+cmd appops set com.google.android.ims WAKE_LOCK allow
 
-#pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
-#pm disable com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
-#pm disable com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService
-#pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
+pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
+pm disable com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
+pm disable com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService
+pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
 
 am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
 
 kmsg2 "More Doze on the go..."
 kmsg2 "----"
 
-#if [ "$(pidof com.google.android.gms | wc -l)" -eq "1" ]; then
-#	kill $(pidof com.google.android.gms);
-#fi;
-#if [ "$(pidof com.google.android.gms.unstable | wc -l)" -eq "1" ]; then
-#	kill $(pidof com.google.android.gms.unstable);
-#fi;
-#if [ "$(pidof com.google.android.gms.persistent | wc -l)" -eq "1" ]; then
-#	kill $(pidof com.google.android.gms.persistent);
-#fi;
-#if [ "$(pidof com.google.android.gms.wearable | wc -l)" -eq "1" ]; then
-#	kill $(pidof com.google.android.gms.wearable);
-#fi;
+if [ "$(pidof com.google.android.gms | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms);
+fi;
+if [ "$(pidof com.google.android.gms.unstable | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms.unstable);
+fi;
+if [ "$(pidof com.google.android.gms.persistent | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms.persistent);
+fi;
+if [ "$(pidof com.google.android.gms.wearable | wc -l)" -eq "1" ]; then
+	kill $(pidof com.google.android.gms.wearable);
+fi;
 
-pm enable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
-pm enable com.google.android.gms/.common.config.PhenotypeCheckinService
+pm disable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
+pm disable com.google.android.gms/.common.config.PhenotypeCheckinService
 
 am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
 
