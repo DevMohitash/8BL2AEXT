@@ -809,5 +809,5 @@ $BB rm -rf /data/dalvik-cache/*
 #settings put global aggressive_standby_enabled "1"
 
 am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-#am start -n com.mkadp.blapptwo/.activities.LogsActivity
+am start -n com.mkadp.blapptwo/.activities.LogsActivity
 exit 0
