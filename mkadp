@@ -156,19 +156,19 @@ kmsg2 "Blocking some GMS....."
 kmsg2 "----"
 
 #GMS Blocker
-pm disable com.google.android.location.internal.UPLOAD_ANALYTICS
-pm disable com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService
-pm disable com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService
-pm disable com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService
-pm disable com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService
-pm disable com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService
-pm disable com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService
-pm disable com.google.android.gms/NearbyMessagesService
-pm disable com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService
-pm disable com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService
-pm disable com.google.android.gms/com.google.android.gms.lockbox.LockboxService
-pm disable com.google.android.gms/.measurement.PackageMeasurementTaskService
-pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent
+pm enable com.google.android.location.internal.UPLOAD_ANALYTICS
+pm enable com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService
+pm enable com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService
+pm enable com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService
+pm enable com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService
+pm enable com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService
+pm enable com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService
+pm enable com.google.android.gms/NearbyMessagesService
+pm enable com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService
+pm enable com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService
+pm enable com.google.android.gms/com.google.android.gms.lockbox.LockboxService
+pm enable com.google.android.gms/.measurement.PackageMeasurementTaskService
+pm enable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
