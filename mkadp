@@ -223,15 +223,6 @@ pm enable 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver
 
 #am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
 
-# Custom CPUSet
-ctl /dev/cpuset/background/cpus 5
-ctl /dev/cpuset/camera-daemon/cpus "1,7"
-ctl /dev/cpuset/foreground/cpus 0-1
-ctl /dev/cpuset/kernel/cpus 6
-ctl /dev/cpuset/restricted/cpus 6-7
-ctl /dev/cpuset/system-background/cpus 5-6
-ctl /dev/cpuset/top-app/cpu 0-7
-
 # Force all CPUs Governor to schedutil
 ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
 ctl /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor schedutil
