@@ -11,7 +11,7 @@ kmsg3() {
 	echo -e "[*] $@" >> $CLOG
 }
 
-am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Balanced. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Balanced. This can take few mins." -n mkadp.toast/.MainActivity
 
 am start -a android.intent.action.MAIN -e toasttext "Preparing..." -n mkadp.toast/.MainActivity
 
@@ -97,6 +97,21 @@ kmsg2 $(date)
 kmsg2 "ButterLimits Mode"
 kmsg2 "Verson 8.0"
 kmsg2 "----"
+kmsg2 "Prop Tweaks already applied"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 "Database Optimization already done"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 "Already Zipaligned APKs"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 "Already Optimized system"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "Starting other tweaks works"
+kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" -n mkadp.toast/.MainActivity
 
@@ -133,7 +148,9 @@ $pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdmin
 
 am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
 
-kmsg2 "More Doze on the go..."
+kmsg2 "UGMS Doze Done"
+kmsg2 "----"
+kmsg2 "Tweaking More Doze on the go..."
 kmsg2 "----"
 
 if [ "$(pidof com.google.android.gms | wc -l)" -eq "1" ]; then
@@ -514,12 +531,6 @@ ctl /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,7,15"
 
 ctl /sys/power/pm_freeze_timeout 25000
 
-# Dalvik
-
-#if [ $(find /data/dalvik-cache/arm64 -type f | wc -l) -lt 250 ]; then
-#	cmd package bg-dexopt-job
-#fi
-
 # DS
 
 for i in `ls /sys/class/scsi_disk/`; do
@@ -565,13 +576,13 @@ for i in ` find /sys/module -name debug_mask`; do
 	ctl $i 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Tweaks Applied" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Level Tweaks Applied" -n mkadp.toast/.MainActivity
 
 kmsg2 $(date) 
 kmsg2 "Applied..."
 kmsg2 "----"
 
-kmsg2 "Some other heavy works started..."
+kmsg2 "Some other optimization works started..."
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
@@ -593,11 +604,11 @@ done
 
 kmsg2 $(date)
 kmsg2 "Done"
-kmsg2 "Another heavy works started..."
+kmsg2 "Some heavy works done..."
 kmsg2 "----"
 #Zip4-0
 
-kmsg2 "Many heavy works done..."
+kmsg2 "Actually Many heavy works done..."
 kmsg2 "Let me breathe..."
 kmsg2 "----"
 
@@ -607,6 +618,7 @@ kmsg "----"
 
 kmsg2 $(date)
 kmsg2 "Some shits will be removed"
+kmsg2 "Logs/Cache/Temp. Files etc."
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
@@ -674,6 +686,7 @@ kmsg "----"
 #
 kmsg2 $(date) 
 kmsg2 "Disabling ZRAM"
+kmsg2 "If not already"
 kmsg2 "----"
 #
 swapoff /dev/zram0
@@ -693,13 +706,11 @@ kmsg2 $(date)
 kmsg2 "ZRAM Disable"
 kmsg2 "----"
 #
-chmod  -R 755 /data
 
 kmsg2 $(date) 
 kmsg2 "All Done."
 kmsg2 "Enjoy ButterLimits"
 kmsg2 "----"
-
 
 # Push a semi-needed log to the internal storage with a "report" if the script could be executed or not;
 kmsg $(date) 
