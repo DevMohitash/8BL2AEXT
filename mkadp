@@ -56,7 +56,7 @@ kmsg() {
 #}
 
 # Safely write value to file
-_ctl2() {
+_ctl() {
 	# Bail out if file does not exist
 	[[ ! -f "$1" ]] && return 1
 	
@@ -82,7 +82,7 @@ _ctl2() {
 }
 
 # Background fork ctl function
-ctl2() {
+ctl() {
 	_ctl $@
 }
 
