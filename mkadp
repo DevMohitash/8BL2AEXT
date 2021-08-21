@@ -168,12 +168,12 @@ pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleT
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
-#kmsg $(date) 
-#kmsg "GMS doze done"
-#kmsg "----"
+kmsg $(date) 
+kmsg "GMS doze done"
+kmsg "----"
 
-pm disable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
-pm disable com.google.android.gms/.common.config.PhenotypeCheckinService
+pm enable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
+pm enable com.google.android.gms/.common.config.PhenotypeCheckinService
 
 pm enable 'com.google.android.gsf/.update.SystemUpdateService'
 pm enable 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'
@@ -194,34 +194,34 @@ pm enable 'com.google.android.gsf/.update.SystemUpdatePanoActivity'
 pm enable 'com.google.android.gsf/.update.SystemUpdateService$Receiver'
 pm enable 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'
 
-#am start -a android.intent.action.MAIN -e toasttext "Some eXtra Doze for Battery" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Some eXtra Doze for Battery" -n mkadp.toast/.MainActivity
 
-#kmsg2 "Applying some Battery Life Doze..."
-#kmsg2 "----"
+kmsg2 "Applying some Battery Life Doze..."
+kmsg2 "----"
 
 # Doze battery life;
-#settings delete global device_idle_constants;
-#settings put global device_idle_constants inactive_to=60000,sensing_to=0,locating_to=0,location_accuracy=2000,motion_inactive_to=0,idle_after_inactive_to=0,idle_pending_to=60000,max_idle_pending_to=120000,idle_pending_factor=2.0,idle_to=900000,max_idle_to=21600000,idle_factor=2.0,max_temp_app_whitelist_duration=60000,mms_temp_app_whitelist_duration=30000,sms_temp_app_whitelist_duration=20000,light_after_inactive_to=10000,light_pre_idle_to=60000,light_idle_to=180000,light_idle_factor=2.0,light_max_idle_to=900000,light_idle_maintenance_min_budget=30000,light_idle_maintenance_max_budget=60000;
-#dumpsys deviceidle step deep doze;
+settings delete global device_idle_constants;
+settings put global device_idle_constants inactive_to=60000,sensing_to=0,locating_to=0,location_accuracy=2000,motion_inactive_to=0,idle_after_inactive_to=0,idle_pending_to=60000,max_idle_pending_to=120000,idle_pending_factor=2.0,idle_to=900000,max_idle_to=21600000,idle_factor=2.0,max_temp_app_whitelist_duration=60000,mms_temp_app_whitelist_duration=30000,sms_temp_app_whitelist_duration=20000,light_after_inactive_to=10000,light_pre_idle_to=60000,light_idle_to=180000,light_idle_factor=2.0,light_max_idle_to=900000,light_idle_maintenance_min_budget=30000,light_idle_maintenance_max_budget=60000;
+dumpsys deviceidle step deep doze;
 
-#kmsg $(date) 
-#kmsg "Some extra doze done"
-#kmsg "----"
+kmsg $(date) 
+kmsg "Some extra doze done"
+kmsg "----"
 
-#kmsg $(date) 
-#kmsg "Kernel and CPU Level Tweaks Started"
-#kmsg "----"
+kmsg $(date) 
+kmsg "Kernel and CPU Level Tweaks Started"
+kmsg "----"
 
-#kmsg2 $(date) 
-#kmsg2 "Kernel and CPU Level Tweaks"
-#kmsg2 "----"
-#kmsg2 "Logs for these will go in"
-#kmsg2 "hlevel log file with details....."
-#kmsg2 "----"
-#kmsg2 "Now applying..."
-#kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "Kernel and CPU Level Tweaks"
+kmsg2 "----"
+kmsg2 "Logs for these will go in"
+kmsg2 "hlevel log file with details....."
+kmsg2 "----"
+kmsg2 "Now applying..."
+kmsg2 "----"
 
-#am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
 
 # Force all CPUs Governor to schedutil
 ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
@@ -420,7 +420,7 @@ ctl "${g}"/scheduler cfq
 ctl "${g}"/read_ahead_kb 128
 done
 
-#am start -a android.intent.action.MAIN -e toasttext "Still Applying-01...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-01...Please Wait" -n mkadp.toast/.MainActivity
 
 for iosched in /sys/block/*/queue/iosched
 do
@@ -498,7 +498,7 @@ do
     ctl "$boost"/powerkey_input_boost_ms 0
 done
 
-#am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
 
 chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
 ctl /sys/module/lowmemorykiller/parameters/cost 16
@@ -535,7 +535,7 @@ do
     ctl "$tracing" 0
 done
 
-#am start -a android.intent.action.MAIN -e toasttext "Still Applying-03...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-03...Please Wait" -n mkadp.toast/.MainActivity
 
 ctl /sys/wifi/logtrace 0
 ctl /sys/wifi/control_logtrace 0
@@ -559,16 +559,16 @@ for i in ` find /sys/module -name debug_mask`; do
 	ctl $i 0
 done
 
-#am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Tweaks Applied" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Finally...Kernel/CPU/GPU Tweaks Applied" -n mkadp.toast/.MainActivity
 
-#kmsg2 $(date) 
-#kmsg2 "Applied..."
-#kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "Applied..."
+kmsg2 "----"
 
-#kmsg2 "Some other heavy works started..."
-#kmsg2 "----"
+kmsg2 "Some other heavy works started..."
+kmsg2 "----"
 
-#am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
 
 #AddonOn62x1
 list="com.android.systemui com.google.android.launcher org.lineageos.trebuchet com.google.android.apps.plus com.deletescape.launchair com.android.launcher3 com.actionlauncher.playstore com.yandex.launcher com.google.android.apps.nexuslauncher com.miui9launcher.miuithemes com.huawei.android.launcher com.miui.home com.cma.launcher.lite com.jiubang.go.mini.launcher com.kkmlauncher-1 com.uprui.launcher.marshmallow com.android.launcher org.adw.launcher org.adwfreak.launcher net.alamoapps.launcher com.anddoes.launcher com.android.lmt com.chrislacy.actionlauncher.pro com.cyanogenmod.trebuchet com.gau.go.launcherex com.gtp.nextlauncher com.miui.mihome2 com.mobint.hololauncher com.mobint.hololauncher.hd com.qihoo360.launcher com.teslacoilsw.launcher com.tsf.shell org.zeam com.sonyericsson.home com.xperiaZ5.home com.sonymobile.simplehome com.teslacoilsw.launcher.prime com.miui.home com.anddoes.launcher.pro-1 com.anddoes.launcher-2 com.actionlauncher.playstore com.lge.launcher2 com.sec.android.app.launcher com.sec.android.app.twlauncher com.gtp.nextlauncher com.cyanogenport.trebuchet net.oneplus.launcher com.whatsapp org.thunderdog.challegram"
@@ -590,7 +590,7 @@ done
 sq=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
 zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
 
-#am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
 
 for i in $(find /data -iname *.db); do
 	$sq $i 'VACUUM;'
@@ -610,18 +610,18 @@ if [ ! -f $ZIPALIGNDB ]; then
 	touch $ZIPALIGNDB
 fi
 
-#kmsg2 $(date)
-#kmsg2 "Done"
-#kmsg2 "Another heavy works started..."
-#kmsg2 "----"
+kmsg2 $(date)
+kmsg2 "Done"
+kmsg2 "Another heavy works started..."
+kmsg2 "----"
 #Zip4-0
-#kmsg $(date)
-#kmsg "Starting Auto ZipAlign" 
+kmsg $(date)
+kmsg "Starting Auto ZipAlign" 
 
-#kmsg2 "Starting Auto ZipAlign" 
-#kmsg2 "=========="
+kmsg2 "Starting Auto ZipAlign" 
+kmsg2 "=========="
 
-#am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
 
 ZIPALIGNDB=/data/zipalign.db
 
@@ -664,26 +664,26 @@ done
 
 touch $ZIPALIGNDB
 
-#am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
 
-#kmsg2 $(date)
-#kmsg2 "=========="
-#kmsg2 "Done Auto ZipAlign" 
-#kmsg2 "=========="
+kmsg2 $(date)
+kmsg2 "=========="
+kmsg2 "Done Auto ZipAlign" 
+kmsg2 "=========="
 
-#kmsg2 "Many heavy works done..."
-#kmsg2 "Let me breathe..."
-#kmsg2 "----"
+kmsg2 "Many heavy works done..."
+kmsg2 "Let me breathe..."
+kmsg2 "----"
 
-#kmsg $(date) 
-#kmsg "Some shits will be removed"
-#kmsg "----"
+kmsg $(date) 
+kmsg "Some shits will be removed"
+kmsg "----"
 
-#kmsg2 $(date)
-#kmsg2 "Some shits will be removed"
-#kmsg2 "----"
+kmsg2 $(date)
+kmsg2 "Some shits will be removed"
+kmsg2 "----"
 
-#am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
 
 # This shit shouled be cleaned
 rm -Rf /cache/*.apk;
@@ -713,21 +713,21 @@ rm -f /data/system/shared_prefs/*;
 rm -f /data/tombstones/*;
 rm -Rf /data/media/0/LOST.DIR;
 
-#kmsg $(date) 
-#kmsg "Some shits are removed"
-#kmsg "----"
-#kmsg2 $(date) 
-#kmsg2 "Done"
-#kmsg2 "----"
+kmsg $(date) 
+kmsg "Some shits are removed"
+kmsg "----"
+kmsg2 $(date) 
+kmsg2 "Done"
+kmsg2 "----"
 
-#kmsg $(date) 
-#kmsg "fsrtim"
-#kmsg "----"
+kmsg $(date) 
+kmsg "fsrtim"
+kmsg "----"
 
-#kmsg2 "Let's do some fstrim tweak..."
-#kmsg2 "----"
+kmsg2 "Let's do some fstrim tweak..."
+kmsg2 "----"
 
-#am start -a android.intent.action.MAIN -e toasttext "Applying some Xtra Tweaks..." -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Applying some Xtra Tweaks..." -n mkadp.toast/.MainActivity
 
 fst=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/fstrim
 
@@ -737,18 +737,18 @@ $fst -v /cache;
 $fst -v /vendor;
 $fst -v /product;
 
-#kmsg $(date) 
-#kmsg "fstrim done"
-#kmsg "----"
+kmsg $(date) 
+kmsg "fstrim done"
+kmsg "----"
 
 #
-#kmsg $(date) 
-#kmsg "Disabling ZRAM"
-#kmsg "----"
+kmsg $(date) 
+kmsg "Disabling ZRAM"
+kmsg "----"
 #
-#kmsg2 $(date) 
-#kmsg2 "Disabling ZRAM"
-#kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "Disabling ZRAM"
+kmsg2 "----"
 #
 swapoff /dev/zram0
 swapoff /dev/block/zram0
@@ -759,34 +759,34 @@ ctl /sys/block/vnswap0/reset 1
 ctl /sys/block/vnswap0/disksize 0
 ctl /proc/sys/vm/swappiness 0
 #
-#kmsg $(date) 
-#kmsg "ZRAM Disabled"
-#kmsg "----"
+kmsg $(date) 
+kmsg "ZRAM Disabled"
+kmsg "----"
 #
-#kmsg2 $(date) 
-#kmsg2 "ZRAM Disable"
-#kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "ZRAM Disable"
+kmsg2 "----"
 #
 
-#kmsg2 $(date) 
-#kmsg2 "All Done."
-#kmsg2 "Enjoy ButterLimits"
-#kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "All Done."
+kmsg2 "Enjoy ButterLimits"
+kmsg2 "----"
 
 
 # Push a semi-needed log to the internal storage with a "report" if the script could be executed or not;
 kmsg $(date) 
 kmsg "MKADP HAS EXECUTED TASK SUCCESSFULLY. ENJOY!" 
 
-#kmsg3 $(date) 
-#kmsg3 "ButterLimits Enabled"
-#kmsg3 "----"
+kmsg3 $(date) 
+kmsg3 "ButterLimits Enabled"
+kmsg3 "----"
 
 $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapptwo/files/YourBLchanges.log
 
-#am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
 
-#$BB rm -rf /cache/*	
+$BB rm -rf /cache/*	
 #$BB rm -rf /data/dalvik-cache/*
 
 dumpsys deviceidle enable all;
@@ -797,6 +797,6 @@ dumpsys deviceidle force-idle
 settings put global aggressive_idle_enabled "1"
 settings put global aggressive_standby_enabled "1"
 
-#am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-#am start -n com.mkadp.blapptwo/.activities.LogsActivity
+am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
+am start -n com.mkadp.blapptwo/.activities.LogsActivity
 exit 0
