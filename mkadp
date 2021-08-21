@@ -506,9 +506,9 @@ done
 
 am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
 
-chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
+chmod  644 /sys/module/lowmemorykiller/parameters/cost
 ctl /sys/module/lowmemorykiller/parameters/cost 16
-chmod -h 644 /sys/module/lowmemorykiller/parameters/adj
+chmod  644 /sys/module/lowmemorykiller/parameters/adj
 ctl /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,7,15"
 
 
@@ -598,14 +598,17 @@ zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
 
 am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
 
+chmod  775 /data
 for i in $(find /data -iname *.db); do
+        chmod 644 $i
 	$sq $i 'VACUUM;'
 	$sq $i 'REINDEX;'
 done
-
+chmod  775 /data
 for i in \
 `find /data -iname "*.db"`; 
 do \
+	chmod 644 $i
 	$sq $i 'VACUUM;'; 
 	$sq $i 'REINDEX;'; 
 done;
