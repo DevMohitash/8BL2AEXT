@@ -798,7 +798,9 @@ $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapptwo/files/Y
 am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
 
 $BB rm -rf /cache/*	
-#$BB rm -rf /data/dalvik-cache/*
+
+am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
+am start -n com.mkadp.blapptwo/.activities.LogsActivity
 
 dumpsys deviceidle enable all;
 dumpsys deviceidle enabled all;
@@ -808,6 +810,4 @@ dumpsys deviceidle force-idle
 settings put global aggressive_idle_enabled "1"
 settings put global aggressive_standby_enabled "1"
 
-am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-am start -n com.mkadp.blapptwo/.activities.LogsActivity
 exit 0
