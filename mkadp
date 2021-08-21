@@ -30,6 +30,8 @@ LOGFU=/data/media/0/butterlimits.log
 LOGBL1=/data/media/0/.mkadp.log
 LOGBL2=/data/media/0/butterlimits.log
 LOG2=/data/data/com.mkadp.blapptwo/files/butterlimits.log
+LOG2A=/data/data/com.mkadp.blapptwo/files/.zbutterlimits.log
+LOG2B=/data/data/com.mkadp.blapptwo/files/.zzbutterlimits.log
 FRACTION=75
 RAM=$(free -m | awk '/Mem:/{print $2}')
 CPUS=`grep -c processor /proc/cpuinfo`
@@ -44,13 +46,15 @@ am start -a android.intent.action.MAIN -e toasttext "Removing old Logs" -n mkadp
 rm $NEWLOG2
 rm $LOGFU
 rm -rf $LOGBL1
-rm -f $LOGBL2
+rm -rf $LOGBL2
 rm -rf $LOG2
+rm -rf $LOG2A
+rm -rf $LOG2B
 
 am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
 
 kmsg() {
-	echo -e "[*] $@" >> $LOGBL1
+	echo -e "[*] $@" >> $LOGB2B
 }
 
 kmsg2() {
@@ -99,7 +103,7 @@ am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" 
 kmsg2 "Killing some idle servers to save battery"
 kmsg2 "----"
 # Kill all three to save battery
-$pme 'com.android.providers.media/com.android.providers.media.MediaScannerReceiver'   | tee -a $LOGBL2
+$pme 'com.android.providers.media/com.android.providers.media.MediaScannerReceiver'   | tee -a $LOG2A
 killall -9 com.google.android.gms
 killall -9 android.process.media
 killall -9 mediaserver
@@ -122,10 +126,10 @@ cmd appops set com.google.android.gms AUTO_START ignore
 cmd appops set com.google.android.ims AUTO_START ignore
 cmd appops set com.google.android.ims WAKE_LOCK ignore
 
-$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver'   | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService'   | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOGBL2
+$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver'   | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService'   | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOGBL2A
 
 am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
 
@@ -154,19 +158,19 @@ kmsg2 "Blocking some GMS....."
 kmsg2 "----"
 
 #GMS Blocker
-$pmd 'com.google.android.location.internal.UPLOAD_ANALYTICS'  | tee -a $LOGBL2
-$pmd 'com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService'  | tee -a $LOGBL2
-$pmd 'com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService'  | tee -a $LOGBL2
-$pmd 'com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService'  | tee -a $LOGBL2
-$pmd 'com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService'  | tee -a $LOGBL2
-$pmd 'com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/NearbyMessagesService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.lockbox.LockboxService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/.measurement.PackageMeasurementTaskService'  | tee -a $LOGBL2
-$pmd 'com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent'  | tee -a $LOGBL2
+$pmd 'com.google.android.location.internal.UPLOAD_ANALYTICS'  | tee -a $LOGBL2A
+$pmd 'com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService'  | tee -a $LOGBL2A
+$pmd 'com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService'  | tee -a $LOGBL2A
+$pmd 'com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService'  | tee -a $LOGBL2A
+$pmd 'com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/NearbyMessagesService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.lockbox.LockboxService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/.measurement.PackageMeasurementTaskService'  | tee -a $LOGBL2A
+$pmd 'com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent'  | tee -a $LOGBL2A
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
 
@@ -175,26 +179,26 @@ kmsg "GMS doze done"
 kmsg "----"
 
 $pme --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
-$pme 'com.google.android.gms/.common.config.PhenotypeCheckinService'  | tee -a $LOGBL2
+$pme 'com.google.android.gms/.common.config.PhenotypeCheckinService'  | tee -a $LOGBL2A
 
-$pme 'com.google.android.gsf/.update.SystemUpdateService'  | tee -a $LOGBL2
-$pme 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/.update.SystemUpdateActivity'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/.update.SystemUpdateService$Receiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'  | tee -a $LOGBL2
-$pme 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gsf/.update.SystemUpdateActivity'  | tee -a $LOGBL2
-$pme 'com.google.android.gsf/.update.SystemUpdatePanoActivity'  | tee -a $LOGBL2
-$pme 'com.google.android.gsf/.update.SystemUpdateService$Receiver'  | tee -a $LOGBL2
-$pme 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'  | tee -a $LOGBL2
+$pme 'com.google.android.gsf/.update.SystemUpdateService'  | tee -a $LOGBL2A
+$pme 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/.update.SystemUpdateActivity'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/.update.SystemUpdateService$Receiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'  | tee -a $LOGBL2A
+$pme 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gsf/.update.SystemUpdateActivity'  | tee -a $LOGBL2A
+$pme 'com.google.android.gsf/.update.SystemUpdatePanoActivity'  | tee -a $LOGBL2A
+$pme 'com.google.android.gsf/.update.SystemUpdateService$Receiver'  | tee -a $LOGBL2A
+$pme 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'  | tee -a $LOGBL2A
 
 am start -a android.intent.action.MAIN -e toasttext "Some eXtra Doze for Battery" -n mkadp.toast/.MainActivity
 
