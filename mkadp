@@ -167,7 +167,7 @@ if [ "$(pidof com.google.android.gms.wearable | wc -l)" -eq "1" ]; then
 fi;
 
 $pmd --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator
-$pmd 'com.google.android.gms/.common.config.PhenotypeCheckinService'  | tee -a $LOGBL2
+$pmd 'com.google.android.gms/.common.config.PhenotypeCheckinService'  | tee -a $LOG2A
 
 am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
 
