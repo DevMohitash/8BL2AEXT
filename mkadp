@@ -9,9 +9,11 @@ BRANCH="Battery-Profile"
 
 sleep 1
 
-am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Battery. This can take upto 5 minutes" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Battery. This can few minutes" -n mkadp.toast/.MainActivity
 
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/battery/module.prop /data/adb/modules/butterlimitsforop7poos11uni
+$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/etc/sysconfig/power_profile_com.google.android.gm.xml /data/adb/modules/butterlimitsforop7poos11uni/system/etc/sysconfig/power_profile_com.google.android.gm.xml
+$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/product/etc/sysconfig/google.xml /data/adb/modules/butterlimitsforop7poos11uni/system/product/etc/sysconfig/google.xml
 
 am start -a android.intent.action.MAIN -e toasttext "Setting Variables" -n mkadp.toast/.MainActivity
 
@@ -23,10 +25,14 @@ LOGFU=/data/media/0/butterlimits.log
 LOGBL1=/data/media/0/.mkadp.log
 LOGBL2=/data/media/0/butterlimits.log
 LOG2=/data/data/com.mkadp.blapptwo/files/butterlimits.log
+LOG2A=/data/data/com.mkadp.blapptwo/files/zbutterlimits.log
+LOG2B=/data/data/com.mkadp.blapptwo/files/zzbutterlimits.log
 FRACTION=75
 RAM=$(free -m | awk '/Mem:/{print $2}')
 CPUS=`grep -c processor /proc/cpuinfo`
 SIZE=$(((RAM * FRACTION / 100) * 1048576))
+pme='pm enable'
+pmd='pm disable'
 #=======================================#
 #=======================================#
 
@@ -37,11 +43,13 @@ rm $LOGFU
 rm -rf $LOGBL1
 rm -rf $LOGBL2
 rm -rf $LOG2
+rm -rf $LOG2A
+rm -rf $LOG2B
 
 am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
 
 kmsg() {
-	echo -e "[*] $@" >> $LOGBL1
+	echo -e "[*] $@" >> $LOG2B
 }
 
 kmsg2() {
@@ -79,12 +87,25 @@ ctl() {
 	_ctl $@
 }
 
-sync
-
 # Print device information prior to execution
 kmsg2 $(date) 
 kmsg2 "BL Battery Mode"
 kmsg2 "Verson 8.0"
+kmsg2 "----"
+kmsg2 "Prop Tweaks already applied"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 "Database Optimization already done"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 "Already Zipaligned APKs"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 "Already Optimized system"
+kmsg2 "while boot"
+kmsg2 "----"
+kmsg2 $(date) 
+kmsg2 "Starting other tweaks works"
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" -n mkadp.toast/.MainActivity
@@ -92,7 +113,7 @@ am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" 
 kmsg2 "Killing some idle servers to save battery"
 kmsg2 "----"
 # Kill all three to save battery
-pm enable com.android.providers.media/com.android.providers.media.MediaScannerReceiver
+$pme 'com.android.providers.media/com.android.providers.media.MediaScannerReceiver'   | tee -a $LOG2A
 killall -9 com.google.android.gms
 killall -9 android.process.media
 killall -9 mediaserver
@@ -114,14 +135,16 @@ cmd appops set com.google.android.gms AUTO_START ignore
 cmd appops set com.google.android.ims AUTO_START ignore
 cmd appops set com.google.android.ims WAKE_LOCK ignore
 
-pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
-pm disable com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
-pm disable com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService
-pm disable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
+$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver'   | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService'   | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOG2A
 
 am start -a android.intent.action.MAIN -e toasttext "Applying some more Doze" -n mkadp.toast/.MainActivity
 
-kmsg2 "More Doze on the go..."
+kmsg2 "UGMS Doze Done"
+kmsg2 "----"
+kmsg2 "Tweaking More Doze on the go..."
 kmsg2 "----"
 
 if [ "$(pidof com.google.android.gms | wc -l)" -eq "1" ]; then
@@ -137,8 +160,8 @@ if [ "$(pidof com.google.android.gms.wearable | wc -l)" -eq "1" ]; then
 	kill $(pidof com.google.android.gms.wearable);
 fi;
 
-pm disable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
-pm disable com.google.android.gms/.common.config.PhenotypeCheckinService
+$pmd --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator
+$pmd 'com.google.android.gms/.common.config.PhenotypeCheckinService'  | tee -a $LOGBL2
 
 
 kmsg2 "Blocking some GMS....."
@@ -147,27 +170,21 @@ kmsg2 "----"
 am start -a android.intent.action.MAIN -e toasttext "Blocking some GMS Stuffs" -n mkadp.toast/.MainActivity
 
 #GMS Blocker
-pm disable com.google.android.location.internal.UPLOAD_ANALYTICS
-pm disable com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService
-pm disable com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService
-pm disable com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService
-pm disable com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService
-pm disable com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService
-pm disable com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService
-pm disable com.google.android.gms/NearbyMessagesService
-pm disable com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService
-pm disable com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService
-pm disable com.google.android.gms/com.google.android.gms.lockbox.LockboxService
-pm disable com.google.android.gms/.measurement.PackageMeasurementTaskService
-pm disable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent
+$pmd 'com.google.android.location.internal.UPLOAD_ANALYTICS'  | tee -a $LOG2A
+$pmd 'com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService'  | tee -a $LOG2A
+$pmd 'com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService'  | tee -a $LOG2A
+$pmd 'com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService'  | tee -a $LOG2A
+$pmd 'com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService'  | tee -a $LOG2A
+$pmd 'com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/NearbyMessagesService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.lockbox.LockboxService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/.measurement.PackageMeasurementTaskService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent'  | tee -a $LOG2A
 
 am start -a android.intent.action.MAIN -e toasttext "Some Battery Tweaks" -n mkadp.toast/.MainActivity
-
-dumpsys deviceidle enable all;
-dumpsys deviceidle enabled all;
-dumpsys deviceidle force-idle
-settings put global aggressive_idle_enabled "1"
-settings put global aggressive_standby_enabled "1"
 
 kmsg $(date) 
 kmsg "GMS doze done"
@@ -191,24 +208,24 @@ kmsg2 "Applied Google Wakelocks Tweaks..."
 kmsg2 "----"
 
 # Disable G Wakelocks
-pm disable 'com.google.android.gsf/.update.SystemUpdateService'
-pm disable 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'
-pm disable 'com.google.android.gms/.update.SystemUpdateActivity'
-pm disable 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'
-pm disable 'com.google.android.gms/.update.SystemUpdateService$Receiver'
-pm disable 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'
-pm disable 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'
-pm disable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'
-pm disable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'
-pm disable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'
-pm disable 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'
-pm disable 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'
-pm disable 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'
-pm disable 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'
-pm disable 'com.google.android.gsf/.update.SystemUpdateActivity'
-pm disable 'com.google.android.gsf/.update.SystemUpdatePanoActivity'
-pm disable 'com.google.android.gsf/.update.SystemUpdateService$Receiver'
-pm disable 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'
+$pmd 'com.google.android.gsf/.update.SystemUpdateService'  | tee -a $LOG2A
+$pmd 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/.update.SystemUpdateActivity'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/.update.SystemUpdateService$Receiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'  | tee -a $LOG2A
+$pmd 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gsf/.update.SystemUpdateActivity'  | tee -a $LOG2A
+$pmd 'com.google.android.gsf/.update.SystemUpdatePanoActivity'  | tee -a $LOG2A
+$pmd 'com.google.android.gsf/.update.SystemUpdateService$Receiver'  | tee -a $LOG2A
+$pmd 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'  | tee -a $LOG2A
 
 kmsg $(date) 
 kmsg "GWakelocks Tweaked."
@@ -227,15 +244,6 @@ kmsg2 "Now applying..."
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Starting applying of Kerne/CPU/GPU Level Tweaks" -n mkadp.toast/.MainActivity
-
-# Custom CPUSet
-ctl /dev/cpuset/background/cpus 5
-ctl /dev/cpuset/camera-daemon/cpus "1,7"
-ctl /dev/cpuset/foreground/cpus 0-1
-ctl /dev/cpuset/kernel/cpus 6
-ctl /dev/cpuset/restricted/cpus 6-7
-ctl /dev/cpuset/system-background/cpus 5-6
-ctl /dev/cpuset/top-app/cpu 0-7
 
 # Force all CPUs Governor to schedutil
 ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
@@ -435,7 +443,7 @@ ctl "${g}"/scheduler cfq
 ctl "${g}"/read_ahead_kb 64
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-01...Please Wait" -n mkadp.toast/.MainActivity
 
 for iosched in /sys/block/*/queue/iosched
 do
@@ -505,8 +513,6 @@ do
     ctl "$cpu" 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
-
 for boost in /sys/devices/system/*/cpu_boost
 do
     ctl "$boost"/sched_boost_on_input 0
@@ -515,6 +521,8 @@ do
     ctl "$boost"/powerkey_input_boost_ms 0
 done
 
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-02...Please Wait" -n mkadp.toast/.MainActivity
+
 chmod -h 644 /sys/module/lowmemorykiller/parameters/cost
 ctl /sys/module/lowmemorykiller/parameters/cost 16
 chmod -h 644 /sys/module/lowmemorykiller/parameters/adj
@@ -522,12 +530,6 @@ ctl /sys/module/lowmemorykiller/parameters/adj "0,1,2,4,7,15"
 
 
 ctl /sys/power/pm_freeze_timeout 25000
-
-# Dalvik
-
-#if [ $(find /data/dalvik-cache/arm64 -type f | wc -l) -lt 250 ]; then
-#	cmd package bg-dexopt-job
-#fi
 
 # DS
 
@@ -550,7 +552,7 @@ do
     ctl "$tracing" 0
 done
 
-am start -a android.intent.action.MAIN -e toasttext "Still Applying...Please Wait" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Still Applying-03...Please Wait" -n mkadp.toast/.MainActivity
 
 ctl /sys/wifi/logtrace 0
 ctl /sys/wifi/control_logtrace 0
@@ -580,7 +582,7 @@ kmsg2 $(date)
 kmsg2 "Applied..."
 kmsg2 "----"
  
-kmsg2 "Some other heavy works started..."
+kmsg2 "Some other optimization works started..."
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Some Launchers/Apps Optimisations" -n mkadp.toast/.MainActivity
@@ -600,92 +602,12 @@ for class in $list; do
 	fi
 done
 
-#Optimizing and defragging database files 4-0
-
-sq=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
-zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
-
-am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
-
-for i in $(find /data -iname *.db); do
-	$sq $i 'VACUUM;'
-	$sq $i 'REINDEX;'
-done
-
-for i in \
-`find /data -iname "*.db"`; 
-do \
-	$sq $i 'VACUUM;'; 
-	$sq $i 'REINDEX;'; 
-done;
-
-ZIPALIGNDB=/data/zipalign.db
-
-if [ ! -f $ZIPALIGNDB ]; then
-	touch $ZIPALIGNDB
-fi
-
 kmsg2 $(date)
 kmsg2 "Done"
-kmsg2 "Another heavy works started..."
+kmsg2 "Some heavy works done..."
 kmsg2 "----"
-#Zip4-0
-kmsg $(date)
-kmsg "Starting Auto ZipAlign" 
-kmsg2 "Starting Auto ZipAlign" 
-kmsg2 "=========="
 
-am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
-
-ZIPALIGNDB=/data/zipalign.db
-
-if [ ! -f $ZIPALIGNDB ]; then
-	touch $ZIPALIGNDB
-fi
-
-for DIR in /data/app /system/app /system/priv-app /system/system_ext/app /system/system_ext/priv-app
-do
-	cd $DIR;
-	for APK in *.apk */*.apk
-	do
-		if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ]; then
-			kmsg2 "Already checked: $DIR/$APK" 
-		else
-			ZIPCHECK=`$zipal -c -v 4 $APK | grep FAILED | wc -l`
-			if [ $ZIPCHECK == "1" ]; then
-				kmsg2 "Now aligning: $DIR/$APK" 
-				$zipal -f 4 $APK /data/local/$APK
-				rc = "$?"
-				if [ $rc -eq 0 ]; then
-					if [ -e "/data/local/$APK" ]; then
-						cp -f -p "/data/local/$APK" "$APK" 
-						rm -f "/data/local/$APK";
-						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
-					else
-						kmsg2 "ZipAligning $APK Failed (no output file)"  
-					fi
-				else
-					[ -f "/data/local/$APK" ] && rm -f "/data/local/$APK"
-					kmsg2 "ZipAligning $APK Failed (rc: $rc)"  
-				fi
-			else
-				kmsg2 "Already aligned: $DIR/$APK" ;
-				grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
-			fi
-		fi
-	done
-done
-
-touch $ZIPALIGNDB
-
-kmsg2 "=========="
-kmsg2 "Done Auto ZipAlign" 
-kmsg2 "=========="
-
-am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
-
-kmsg2 $(date) 
-kmsg2 "Many heavy works done..."
+kmsg2 "Actually Many heavy works done..."
 kmsg2 "Let me breathe..."
 kmsg2 "----"
 
@@ -693,7 +615,9 @@ kmsg $(date)
 kmsg "Some shits will be removed"
 kmsg "----"
 
+kmsg2 $(date)
 kmsg2 "Some shits will be removed"
+kmsg2 "Logs/Cache/Temp. Files etc."
 kmsg2 "----"
 
 am start -a android.intent.action.MAIN -e toasttext "Removing some Shits" -n mkadp.toast/.MainActivity
@@ -759,6 +683,7 @@ kmsg "----"
 #
 kmsg2 $(date) 
 kmsg2 "Disabling ZRAM"
+kmsg2 "If not already"
 kmsg2 "----"
 #
 swapoff /dev/zram0
@@ -788,22 +713,25 @@ kmsg2 "----"
 kmsg $(date) 
 kmsg "MKADP HAS EXECUTED TASK SUCCESSFULLY. ENJOY!" 
 
-CLOG=/data/media/0/YourBLchanges.log
-
-kmsg3() {
-	echo -e "[*] $@" >> $CLOG
-}
-
 kmsg3 $(date) 
 kmsg3 "Battery Mode Enabled"
 kmsg3 "----"
 
-
 $BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapptwo/files/YourBLchanges.log
+
 am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toast/.MainActivity
+
 $BB rm -rf /cache/*	
-$BB rm -rf /data/dalvik-cache/*
 
 am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
 am start -n com.mkadp.blapptwo/.activities.LogsActivity
+
+dumpsys deviceidle enable all;
+dumpsys deviceidle enabled all;
+dumpsys deviceidle enable;
+dumpsys deviceidle enabled;
+dumpsys deviceidle force-idle
+settings put global aggressive_idle_enabled "1"
+settings put global aggressive_standby_enabled "1"
+
 exit 0
