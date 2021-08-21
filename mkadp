@@ -56,7 +56,7 @@ kmsg() {
 #}
 
 # Safely write value to file
-_ctl() {
+_ctl2() {
 	# Bail out if file does not exist
 	[[ ! -f "$1" ]] && return 1
 	
@@ -82,9 +82,29 @@ _ctl() {
 }
 
 # Background fork ctl function
-ctl() {
+ctl2() {
 	_ctl $@
 }
+
+ctl() {
+	# Bail out if file does not exist
+	[[ ! -f "$1" ]] && return 1
+
+	# Make file writable in case it is not already
+	chmod +w "$1" 2> /dev/null
+
+	# Write the new value and bail if there's an error
+	if ! echo "$2" > "$1" 2> /dev/null
+	then
+		echo "Failed: $1 → $2"
+		return 1
+	fi
+
+	# Log the success
+	echo "$1 → $2"
+}
+
+sync
 
 # Print device information prior to execution
 #kmsg2 $(date) 
