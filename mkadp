@@ -597,10 +597,11 @@ sq=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
 zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
 
 am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
-
-chmod  775 /data
+chmod 777 /data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
+chmod  -R 777 /data
+chmod  -R 777 /data *
 for i in $(find /data -iname *.db); do
-        chmod 644 $i
+        chmod 777 $i
 	$sq $i 'VACUUM;'
 	$sq $i 'REINDEX;'
 done
@@ -608,7 +609,7 @@ chmod  775 /data
 for i in \
 `find /data -iname "*.db"`; 
 do \
-	chmod 644 $i
+	chmod 777 $i
 	$sq $i 'VACUUM;'; 
 	$sq $i 'REINDEX;'; 
 done;
@@ -637,7 +638,7 @@ ZIPALIGNDB=/data/zipalign.db
 if [ ! -f $ZIPALIGNDB ]; then
 	touch $ZIPALIGNDB
 fi
-
+chmod 777 /data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
 for DIR in /data/app /system/app /system/priv-app /system/system_ext/app /system/system_ext/priv-app
 do
 	cd $DIR;
@@ -776,6 +777,7 @@ kmsg2 $(date)
 kmsg2 "ZRAM Disable"
 kmsg2 "----"
 #
+chmod  -R 755 /data
 
 kmsg2 $(date) 
 kmsg2 "All Done."
