@@ -276,7 +276,7 @@ ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 2000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
 
 # Other CPU tweaks
-ctl /dev/cpuctl/cpu.shares 1024
+#ctl /dev/cpuctl/cpu.shares 1024
 
 
 
