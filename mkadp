@@ -54,7 +54,7 @@ rm -rf $LOG2B
 am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
 
 kmsg() {
-	echo -e "[*] $@" >> $LOGB2B
+	echo -e "[*] $@" >> $LOG2B
 }
 
 kmsg2() {
