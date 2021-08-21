@@ -591,95 +591,11 @@ for class in $list; do
 	fi
 done
 
-#Optimizing and defragging database files 4-0
-
-sq=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
-zipal=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
-
-am start -a android.intent.action.MAIN -e toasttext "Optimizing Database" -n mkadp.toast/.MainActivity
-chmod 777 /data/adb/modules/butterlimitsforop7poos11uni/system/xbin/sqlite3
-chmod  -R 777 /data
-chmod  -R 777 /data *
-for i in $(find /data -iname *.db); do
-        chmod 777 $i
-	$sq $i 'VACUUM;'
-	$sq $i 'REINDEX;'
-done
-chmod  775 /data
-for i in \
-`find /data -iname "*.db"`; 
-do \
-	chmod 777 $i
-	$sq $i 'VACUUM;'; 
-	$sq $i 'REINDEX;'; 
-done;
-
-ZIPALIGNDB=/data/zipalign.db
-
-if [ ! -f $ZIPALIGNDB ]; then
-	touch $ZIPALIGNDB
-fi
-
 kmsg2 $(date)
 kmsg2 "Done"
 kmsg2 "Another heavy works started..."
 kmsg2 "----"
 #Zip4-0
-kmsg $(date)
-kmsg "Starting Auto ZipAlign" 
-
-kmsg2 "Starting Auto ZipAlign" 
-kmsg2 "=========="
-
-am start -a android.intent.action.MAIN -e toasttext "Starting Zipaligning..." -n mkadp.toast/.MainActivity
-
-ZIPALIGNDB=/data/zipalign.db
-
-if [ ! -f $ZIPALIGNDB ]; then
-	touch $ZIPALIGNDB
-fi
-chmod 777 /data/adb/modules/butterlimitsforop7poos11uni/system/xbin/zipalign
-for DIR in /data/app /system/app /system/priv-app /system/system_ext/app /system/system_ext/priv-app
-do
-	cd $DIR;
-	for APK in *.apk */*.apk
-	do
-		if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ]; then
-			kmsg2 "Already checked: $DIR/$APK" 
-		else
-			ZIPCHECK=`$zipal -c -v 4 $APK | grep FAILED | wc -l`
-			if [ $ZIPCHECK == "1" ]; then
-				kmsg2 "Now aligning: $DIR/$APK" 
-				$zipal -f 4 $APK /data/local/$APK
-				rc = "$?"
-				if [ $rc -eq 0 ]; then
-					if [ -e "/data/local/$APK" ]; then
-						cp -f -p "/data/local/$APK" "$APK" 
-						rm -f "/data/local/$APK";
-						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
-					else
-						kmsg2 "ZipAligning $APK Failed (no output file)"  
-					fi
-				else
-					[ -f "/data/local/$APK" ] && rm -f "/data/local/$APK"
-					kmsg2 "ZipAligning $APK Failed (rc: $rc)"  
-				fi
-			else
-				kmsg2 "Already aligned: $DIR/$APK" ;
-				grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
-			fi
-		fi
-	done
-done
-
-touch $ZIPALIGNDB
-
-am start -a android.intent.action.MAIN -e toasttext "Zipaligning Done" -n mkadp.toast/.MainActivity
-
-kmsg2 $(date)
-kmsg2 "=========="
-kmsg2 "Done Auto ZipAlign" 
-kmsg2 "=========="
 
 kmsg2 "Many heavy works done..."
 kmsg2 "Let me breathe..."
