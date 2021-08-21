@@ -1,4 +1,11 @@
 #!/system/bin/sh
+
+am start -a android.intent.action.MAIN -e toasttext "Uninstalling ButterLimits" -n mkadp.toast/.MainActivity
+
+sleep 1
+
+am start -a android.intent.action.MAIN -e toasttext "Setting Variables" -n mkadp.toast/.MainActivity
+
 #=======================================#
 #VARIABLES===============================#
 BB=/data/adb/magisk/busybox
@@ -10,8 +17,12 @@ NEWLOG2=/data/media/0/.mkadp.log
 LOGFU=/data/media/0/butterlimits.log
 CLOG=/data/media/0/YourBLchanges.log
 BRANCH="ZZZ-Uninistall-ButterLimits-Completely"
+pme='pm enable'
+pmd='pm disable'
 #=======================================#
 #=======================================#
+
+am start -a android.intent.action.MAIN -e toasttext "Removing Log files" -n mkadp.toast/.MainActivity
 
 $BB rm -rf $LOG
 $BB rm -rf $MODE
@@ -20,7 +31,8 @@ $BB rm -rf $NEWLOG2
 $BB rm -rf $LOGFU
 $BB rm -rf $LOGZR
 $BB rm -rf $CLOG
-sleep 1
+
+am start -a android.intent.action.MAIN -e toasttext "Enabling all services that were disable by ButterLimits" -n mkadp.toast/.MainActivity
 
 cmd appops set com.google.android.gms BOOT_COMPLETED allow
 cmd appops set com.google.android.ims BOOT_COMPLETED allow
@@ -29,51 +41,57 @@ cmd appops set com.google.android.gms AUTO_START allow
 cmd appops set com.google.android.ims AUTO_START allow
 cmd appops set com.google.android.ims WAKE_LOCK allow
 
-pm enable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator;
-pm enable com.google.android.gms/.common.config.PhenotypeCheckinService
+$pme --user 0 'com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator'
+$pme 'com.google.android.gms/.common.config.PhenotypeCheckinService'
 
-pm enable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
-pm enable com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
-pm enable com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService
-pm enable com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver
+$pme 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService'
+$pme 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'
 
-pm enable com.google.android.location.internal.UPLOAD_ANALYTICS
-pm enable com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService
-pm enable com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService
-pm enable com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService
-pm enable com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService
-pm enable com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService
-pm enable com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService
-pm enable com.google.android.gms/NearbyMessagesService
-pm enable com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService
-pm enable com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService
-pm enable com.google.android.gms/com.google.android.gms.lockbox.LockboxService
-pm enable com.google.android.gms/.measurement.PackageMeasurementTaskService
-pm enable com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent
+$pme 'com.google.android.location.internal.UPLOAD_ANALYTICS'
+$pme 'com.google.android.apps.wellbeing/.powerstate.impl.PowerStateJobService'
+$pme 'com.google.android.apps.wellbeing/androidx.work.impl.background.systemjob.SystemJobService'
+$pme 'com.facebook.katana/com.facebook.analytics.appstatelogger.AppStateIntentService'
+$pme 'com.facebook.orca/com.facebook.analytics.apptatelogger.AppStateIntentService'
+$pme 'com.facebook.orca/com.facebook.analytics2.Logger.LollipopUploadService'
+$pme 'com.google.android.gms/com.google.android.gms.nearby.bootstrap.service.NearbyBootstrapService'
+$pme 'com.google.android.gms/NearbyMessagesService'
+$pme 'com.google.android.gms/com.google.android.gms.nearby.connection.service.NearbyConnectionsAndroidService'
+$pme 'com.google.android.gms/com.google.location.nearby.direct.service.NearbyDirectService'
+$pme 'com.google.android.gms/com.google.android.gms.lockbox.LockboxService'
+$pme 'com.google.android.gms/.measurement.PackageMeasurementTaskService'
+$pme 'com.google.android.gms/com.google.android.gms.auth.trustagent.GoogleTrustAgent'
 
-pm enable 'com.google.android.gsf/.update.SystemUpdateService'
-pm enable 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'
-pm enable 'com.google.android.gms/.update.SystemUpdateActivity'
-pm enable 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'
-pm enable 'com.google.android.gms/.update.SystemUpdateService$Receiver'
-pm enable 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'
-pm enable 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'
-pm enable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'
-pm enable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'
-pm enable 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'
-pm enable 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'
-pm enable 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'
-pm enable 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'
-pm enable 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'
-pm enable 'com.google.android.gsf/.update.SystemUpdateActivity'
-pm enable 'com.google.android.gsf/.update.SystemUpdatePanoActivity'
-pm enable 'com.google.android.gsf/.update.SystemUpdateService$Receiver'
-pm enable 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'
+$pme 'com.google.android.gsf/.update.SystemUpdateService'
+$pme 'com.android.vending/com.google.android.gms.measurement.AppMeasurementReceiver'
+$pme 'com.google.android.gms/.update.SystemUpdateActivity'
+$pme 'com.google.android.gms/.update.SystemUpdateService$ActiveReceiver'
+$pme 'com.google.android.gms/.update.SystemUpdateService$Receiver'
+$pme 'com.google.android.gms/.update.SystemUpdateService$SecretCodeReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.analytics.AnalyticsReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.measurement.AppMeasurementService'
+$pme 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementReceiver'
+$pme 'com.google.android.gms/com.google.android.gms.measurement.PackageMeasurementService'
+$pme 'com.google.android.gms/com.google.android.gms.measurement.service.MeasurementBrokerService'
+$pme 'com.google.android.gms/com.google.android.location.internal.AnalyticsSamplerReceiver'
+$pme 'com.google.android.gsf/.update.SystemUpdateActivity'
+$pme 'com.google.android.gsf/.update.SystemUpdatePanoActivity'
+$pme 'com.google.android.gsf/.update.SystemUpdateService$Receiver'
+$pme 'com.google.android.gsf/.update.SystemUpdateService$SecretCodeReceiver'
+
+am start -a android.intent.action.MAIN -e toasttext "Clearing App data" -n mkadp.toast/.MainActivity
 
 $BB rm -rf /data/data/com.mkadp.blapptwo
 
+am start -a android.intent.action.MAIN -e toasttext "Removing Module that will take affect after reboot..." -n mkadp.toast/.MainActivity
+
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/unbl/disable /data/adb/modules/butterlimitsforop7poos11uni/disable
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/unbl/remove /data/adb/modules/butterlimitsforop7poos11uni/remove
+
+am start -a android.intent.action.MAIN -e toasttext "Wiping Cache and Dalvik Cache" -n mkadp.toast/.MainActivity
 
 $BB rm -rf /cache/*	
 $BB rm -rf /data/dalvik-cache/*
