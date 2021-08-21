@@ -34,8 +34,8 @@ FRACTION=75
 RAM=$(free -m | awk '/Mem:/{print $2}')
 CPUS=`grep -c processor /proc/cpuinfo`
 SIZE=$(((RAM * FRACTION / 100) * 1048576))
-$pme='pm enable'
-$pmd='pm disable'
+pme='pm enable'
+pmd='pm disable'
 #=======================================#
 #=======================================#
 
@@ -44,7 +44,7 @@ am start -a android.intent.action.MAIN -e toasttext "Removing old Logs" -n mkadp
 rm $NEWLOG2
 rm $LOGFU
 rm -rf $LOGBL1
-rm -rf $LOGBL2
+rm -f $LOGBL2
 rm -rf $LOG2
 
 am start -a android.intent.action.MAIN -e toasttext "Prepring for heavy works" -n mkadp.toast/.MainActivity
@@ -99,7 +99,7 @@ am start -a android.intent.action.MAIN -e toasttext "Killing some idle servers" 
 kmsg2 "Killing some idle servers to save battery"
 kmsg2 "----"
 # Kill all three to save battery
-pme 'com.android.providers.media/com.android.providers.media.MediaScannerReceiver'   | tee -a $LOGBL2
+$pme 'com.android.providers.media/com.android.providers.media.MediaScannerReceiver'   | tee -a $LOGBL2
 killall -9 com.google.android.gms
 killall -9 android.process.media
 killall -9 mediaserver
