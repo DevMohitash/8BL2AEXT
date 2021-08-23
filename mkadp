@@ -7,8 +7,6 @@ BRANCH="Battery-Profile"
 #=======================================#
 #=======================================#
 
-sleep 1
-
 am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Battery. This can few minutes" -n mkadp.toast/.MainActivity
 
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/battery/module.prop /data/adb/modules/butterlimitsforop7poos11uni
@@ -90,7 +88,7 @@ ctl() {
 # Print device information prior to execution
 kmsg2 $(date) 
 kmsg2 "BL Battery Mode"
-kmsg2 "Verson 8.0"
+kmsg2 "Verson 8.2"
 kmsg2 "----"
 kmsg2 "Prop Tweaks already applied"
 kmsg2 "while boot"
