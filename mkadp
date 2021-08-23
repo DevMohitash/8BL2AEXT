@@ -274,19 +274,19 @@ ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 2000
 ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us 2500
 ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/up_rate_limit_us 2500
 ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/up_rate_limit_us 2500
 ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 4000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
 
 # Other CPU tweaks
@@ -451,21 +451,12 @@ do
     ctl "$iosched"/group_idle 1
 done
 
-if [ -d /dev/stune ];
-then
-ctl /dev/stune/background/schedtune.boost -12
-STN=$($B cat /dev/stune/top-app/schedtune.boost);
-ctl /dev/stune/top-app/schedtune.boost "$((STN+1))"
-fi
-
 # Dev Stune Boost
 # Fast Sensivity in Game
-ctl /dev/stune/background/schedtune.boost 0
-ctl /dev/stune/foreground/schedtune.boost 0
-ctl /dev/stune/rt/schedtune.boost 0
-ctl /dev/stune/top-app/schedtune.boost 0
-ctl /dev/stune/schedtune.boost 0
-ctl /dev/stune/nnapi-hal/schedtune.boost 0
+ctl /dev/stune/background/schedtune.boost 12
+ctl /dev/stune/foreground/schedtune.boost 12
+ctl /dev/stune/top-app/schedtune.boost 25
+ctl /dev/stune/schedtune.boost 8
 ctl /dev/stune/nnapi-hal/schedtune.prefer_idle 1
 ctl /dev/stune/top-app/schedtune.prefer_idle 1
 ctl /dev/stune/background/schedtune.prefer_idle 1
