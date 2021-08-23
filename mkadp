@@ -455,8 +455,10 @@ done
 # Fast Sensivity in Game
 ctl /dev/stune/background/schedtune.boost 12
 ctl /dev/stune/foreground/schedtune.boost 12
+ctl /dev/stune/rt/schedtune.boost 0
 ctl /dev/stune/top-app/schedtune.boost 25
 ctl /dev/stune/schedtune.boost 8
+ctl /dev/stune/nnapi-hal/schedtune.boost 0
 ctl /dev/stune/nnapi-hal/schedtune.prefer_idle 1
 ctl /dev/stune/top-app/schedtune.prefer_idle 1
 ctl /dev/stune/background/schedtune.prefer_idle 1
