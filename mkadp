@@ -289,6 +289,22 @@ ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 4000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
 
+ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1385600
+ctl /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 1385600
+ctl /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 1385600
+ctl /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 1385600
+ctl /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 376000
+ctl /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 376000
+ctl /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 376000
+ctl /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 376000
+
+ctl /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 2219200
+ctl /sys/devices/system/cpu/cpu5/cpufreq/scaling_max_freq 2219200
+ctl /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq 2219200
+
+ctl /sys/devices/system/cpu/offline 3
+ctl /sys/devices/system/cpu/online "0-2,4-7"
+
 # Other CPU tweaks
 ctl /dev/cpuctl/cpu.shares 1024
 
