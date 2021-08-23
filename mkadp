@@ -274,15 +274,15 @@ ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 2000
 ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/up_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/up_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/down_rate_limit_us 0
-ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/up_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/up_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/pl 0
 
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 0
