@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-am start -a android.intent.action.MAIN -e toasttext "Uninstalling ButterLimits" -n mkadp.toast/.MainActivity
+am start -a android.intent.action.MAIN -e toasttext "Uninstalling ButterFly" -n mkadp.toast/.MainActivity
 
 sleep 1
 
@@ -16,7 +16,7 @@ NEWLOG=/data/local/mkadp.log
 NEWLOG2=/data/media/0/.mkadp.log
 LOGFU=/data/media/0/butterlimits.log
 CLOG=/data/media/0/YourBLchanges.log
-BRANCH="ZZZ-Uninistall-Buttery-Extreme"
+BRANCH="ZZZ-Uninstall-ButterFly-Completely"
 pme='pm enable'
 pmd='pm disable'
 #=======================================#
