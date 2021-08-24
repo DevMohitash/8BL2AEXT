@@ -10,7 +10,6 @@ BRANCH="Battery-Profile"
 am start -a android.intent.action.MAIN -e toasttext "Enabling ButterLimits-Battery. This can few minutes" -n mkadp.toast/.MainActivity
 
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/battery/module.prop /data/adb/modules/butterlimitsforop7poos11uni
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/bl.sh /data/adb/modules/butterlimitsforop7poos11uni/service.sh
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/etc/sysconfig/power_profile_com.google.android.gm.xml /data/adb/modules/butterlimitsforop7poos11uni/system/etc/sysconfig/power_profile_com.google.android.gm.xml
 $BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/gms/system/product/etc/sysconfig/google.xml /data/adb/modules/butterlimitsforop7poos11uni/system/product/etc/sysconfig/google.xml
 
@@ -90,8 +89,6 @@ ctl() {
 kmsg2 $(date) 
 kmsg2 "BL Battery Mode"
 kmsg2 "Verson 8.2"
-kmsg2 "Whenever you come from Extreme Profile. You need to reboot after enabling other profile."
-kmsg2 "Only one time whenever come from Extreme."
 kmsg2 "----"
 kmsg2 "Prop Tweaks already applied"
 kmsg2 "while boot"
@@ -733,7 +730,6 @@ am start -a android.intent.action.MAIN -e toasttext "Wiping Cache" -n mkadp.toas
 $BB rm -rf /cache/*	
 
 am start -a android.intent.action.MAIN -e toasttext "All Done. Thankyou for your patience" -n mkadp.toast/.MainActivity
-am start -a android.intent.action.MAIN -e toasttext "If coming from Extreme Mode, Please reboot your device" -n mkadp.toast/.MainActivity
 am start -n com.mkadp.blapptwo/.activities.LogsActivity
 
 dumpsys deviceidle enable all;
