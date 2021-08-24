@@ -129,31 +129,26 @@ kmsg $(date)
 kmsg "Killing one server done"
 kmsg "----"
 
-am start -a android.intent.action.MAIN -e toasttext "Applying UGMS Doze" -n mkadp.toast/.MainActivity
-
-kmsg2 "UGMS Doze on the go..."
-kmsg2 "----"
-
 # GMS Doze
 
-cmd appops set com.google.android.gms BOOT_COMPLETED ignore
-cmd appops set com.google.android.ims BOOT_COMPLETED ignore
-cmd appops set com.google.android.gsf WAKE_LOCK ignore
-cmd appops set com.google.android.gms AUTO_START ignore
-cmd appops set com.google.android.ims AUTO_START ignore
-cmd appops set com.google.android.ims WAKE_LOCK ignore
+cmd appops set com.google.android.gms BOOT_COMPLETED allow
+cmd appops set com.google.android.ims BOOT_COMPLETED allow
+cmd appops set com.google.android.gsf WAKE_LOCK allow
+cmd appops set com.google.android.gms AUTO_START allow
+cmd appops set com.google.android.ims AUTO_START allow
+cmd appops set com.google.android.ims WAKE_LOCK allow
 
-$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOG2A
-$pmd 'com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver'   | tee -a $LOG2A
-$pmd 'com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService'   | tee -a $LOG2A
-$pmd 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOG2A
+$pme 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOG2A
+$pme 'com.google.android.gms/com.google.android.gms.auth.managed.admin.DeviceAdminReceiver'   | tee -a $LOG2A
+$pme 'com.google.android.gms/com.google.android.gms.auth.setup.devicesignals.LockScreenService'   | tee -a $LOG2A
+$pme 'com.google.android.gms/com.google.android.gms.mdm.receivers.MdmDeviceAdminReceiver'   | tee -a $LOG2A
 
 # Some stuffs to be enabled
 
 am start -a android.intent.action.MAIN -e toasttext "Enabling some services that were disabled by other Profiles" -n mkadp.toast/.MainActivity
 
 kmsg2 "Enables stuffs that are"
-kmsg2 "disabled by other mods..."
+kmsg2 "disabled by other mods if any..."
 kmsg2 "----"
 
 $pme --user 0 'com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator' | tee -a $LOG2A
@@ -220,35 +215,35 @@ ctl /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor schedutil
 ctl /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor schedutil
 
 # Fequency tweaks to all CPUs
-ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu0/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu1/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu2/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 2000
+ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 3000
 ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu3/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/down_rate_limit_us 4000
 ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu4/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/down_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/down_rate_limit_us 4000
 ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu5/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/down_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/down_rate_limit_us 4000
 ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu6/cpufreq/schedutil/pl 0
 
-ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 2500
+ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/down_rate_limit_us 5000
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/up_rate_limit_us 0
 ctl /sys/devices/system/cpu/cpu7/cpufreq/schedutil/pl 0
 
@@ -323,7 +318,7 @@ ctl /proc/sys/vm/vfs_cache_pressure 94
 ctl /proc/sys/vm/overcommit_ratio 50
 ctl /proc/sys/vm/extra_free_kbytes 24300
 ctl /proc/sys/kernel/random/read_wakeup_threshold 64
-ctl /proc/sys/kernel/random/write_wakeup_threshold 1712
+ctl /proc/sys/kernel/random/write_wakeup_threshold 2200
 ctl /sys/module/lowmemorykiller/parameters/minfree "21816,29088,36360,43632,50904,65448"
 ctl /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 0
 
@@ -433,7 +428,7 @@ ctl /dev/stune/background/schedtune.boost 15
 ctl /dev/stune/foreground/schedtune.boost 15
 ctl /dev/stune/rt/schedtune.boost 1
 ctl /dev/stune/top-app/schedtune.boost 25
-ctl /dev/stune/schedtune.boost 10
+ctl /dev/stune/schedtune.boost 100
 ctl /dev/stune/nnapi-hal/schedtune.boost 1
 ctl /dev/stune/nnapi-hal/schedtune.prefer_idle 0
 ctl /dev/stune/top-app/schedtune.prefer_idle 0
@@ -457,9 +452,9 @@ ctl /proc/sys/kernel/sched_boost 1
 ctl /sys/module/boost_control/parameters/app_launch_boost_ms 3000
 
 # GPU frequency based throttling;
-ctl /sys/class/kgsl/kgsl-3d0/throttling 1
-ctl /sys/class/kgsl/kgsl-3d0/default_pwrlevel 4
-ctl /sys/class/kgsl/kgsl-3d0/bus_split 1
+ctl /sys/class/kgsl/kgsl-3d0/throttling 0
+ctl /sys/class/kgsl/kgsl-3d0/default_pwrlevel 0
+ctl /sys/class/kgsl/kgsl-3d0/bus_split 0
 
 #1028 readahead KB
 ctl /sys/block/sde/queue/read_ahead_kb 128
@@ -696,7 +691,7 @@ kmsg $(date)
 kmsg "MKADP HAS EXECUTED TASK SUCCESSFULLY. ENJOY!"
 
 kmsg3 $(date) 
-kmsg3 "Extreme Mode Enabled"
+kmsg3 "Extremely Aggressive Mode Enabled"
 kmsg3 "----"
 
 $$BB cp -rf /data/media/0/YourBLchanges.log /data/data/com.mkadp.blapptwo/files/YourBLchanges.log
