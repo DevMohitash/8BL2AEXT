@@ -90,6 +90,8 @@ ctl() {
 kmsg2 $(date) 
 kmsg2 "BL Battery Mode"
 kmsg2 "Verson 8.2"
+kmsg2 "Whenever you come from Extreme Profile. You need to reboot after enabling other profile."
+kmsg2 "Only one time whenever come from Extreme."
 kmsg2 "----"
 kmsg2 "Prop Tweaks already applied"
 kmsg2 "while boot"
