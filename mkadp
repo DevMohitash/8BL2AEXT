@@ -9,7 +9,7 @@ BRANCH="Extremely-Aggressive-Profile"
 
 am start -a android.intent.action.MAIN -e toasttext "Enabling ButterFly-ExtremeAggressive. This can take few minutes" -n mkadp.toast/.MainActivity
 
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/mkadp/extremely/module.prop /data/adb/modules/butterlimitsforop7poos11uni
+$BB cp -rf /data/adb/modules/butterlimitsforop8poos11uni/system/etc/mkadp/extremely/module.prop /data/adb/modules/butterlimitsforop8poos11uni
 
 kmsg3() {
 	echo -e "[*] $@" >> $CLOG
@@ -632,7 +632,7 @@ kmsg2 $(date)
 kmsg2 "Let's do some fstrim tweak..."
 kmsg2 "----"
 
-fst=/data/adb/modules/butterlimitsforop7poos11uni/system/xbin/fstrim
+fst=/data/adb/modules/butterlimitsforop8poos11uni/system/xbin/fstrim
 
 $fst -v /data;
 $fst -v /system;
