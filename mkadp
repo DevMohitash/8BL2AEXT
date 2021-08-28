@@ -88,8 +88,8 @@ $BB rm -rf /data/data/com.mkadp.blapptwo
 
 am start -a android.intent.action.MAIN -e toasttext "Removing Module that will take affect after reboot..." -n mkadp.toast/.MainActivity
 
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/unbl/disable /data/adb/modules/butterlimitsforop7poos11uni/disable
-$BB cp -rf /data/adb/modules/butterlimitsforop7poos11uni/system/etc/unbl/remove /data/adb/modules/butterlimitsforop7poos11uni/remove
+$BB cp -rf /data/adb/modules/butterlimitsforop8poos11uni/system/etc/unbl/disable /data/adb/modules/butterlimitsforop8poos11uni/disable
+$BB cp -rf /data/adb/modules/butterlimitsforop8poos11uni/system/etc/unbl/remove /data/adb/modules/butterlimitsforop8poos11uni/remove
 
 am start -a android.intent.action.MAIN -e toasttext "Wiping Cache and Dalvik Cache" -n mkadp.toast/.MainActivity
 
